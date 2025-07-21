@@ -1,0 +1,133 @@
+{
+    "app": {
+        "title": "AiOne",
+        "welcome": "Welcome to AiOne",
+        "description": "This is a modern desktop application built with Tauri + React + Ant Design.",
+        "menu_description": "The left menu provides quick access to various functional modules. You can click on different menu items to explore the application's features."
+    },
+    "menu": {
+        "home": "Home",
+        "documents": "Documents",
+        "database": "Database",
+        "dashboard": "Dashboard",
+        "user_management": "User Management",
+        "notifications": "Notifications",
+        "settings": "Settings",
+        "ai_chat": "AI Chat"
+    },
+    "theme": {
+        "light": "Light Mode",
+        "dark": "Dark Mode",
+        "system": "Follow System",
+        "toggle": "Toggle Theme",
+        "switched_to": "Switched to"
+    },
+    "notification": {
+        "title": "Notification Center",
+        "empty": "No notifications",
+        "unread": "Unread notifications",
+        "mark_all_read": "Mark All Read",
+        "clear_all": "Clear All",
+        "mark_read": "Mark as Read",
+        "delete": "Delete",
+        "test": {
+            "title": "Notification",
+            "description": "Click the buttons below to test the global notification feature. Notifications will appear in the top right corner with adaptive fonts for light and dark themes. You can view and manage all notifications through the notification icon in the left menu.",
+            "success": "Send Success Notification",
+            "info": "Send Info Notification",
+            "warning": "Send Warning Notification",
+            "error": "Send Error Notification",
+            "batch": "Batch Test Notifications",
+            "dark_mode": "Test Dark Mode Font",
+            "badge": "for testing badge display"
+        },
+        "messages": {
+            "success": "Operation completed successfully!",
+            "info": "This is an information message",
+            "warning": "Please pay attention to related risks",
+            "error": "Operation failed, please retry",
+            "retry": "Retry",
+            "retry_clicked": "You clicked the retry button",
+            "theme_switched": "Theme Switched",
+            "dark_test": "Dark Mode Test",
+            "dark_test_desc": "This is a test notification in dark mode, please check if the font is clearly visible",
+            "test_success": "Test Success",
+            "font_normal": "Font display is normal!",
+            "badge_test": "Badge Test",
+            "badge_test_desc": "5 notifications have been sent, please check if the notification badge in the left menu is fully displayed",
+            "notification_success": "This is a success message that displays appropriate styles according to the current theme",
+            "notification_info": "This is an information message that supports both light and dark themes",
+            "notification_warning": "This is a warning message with good theme adaptation",
+            "notification_error": "This is an error message with good readability in different themes"
+        },
+        "types": {
+            "success": "Success",
+            "info": "Info",
+            "warning": "Warning",
+            "error": "Error"
+        }
+    },
+    "greet": {
+        "title": "Tauri Integration Test",
+        "placeholder": "Enter your name...",
+        "button": "Greet",
+        "success": "Greeting Success",
+        "welcome_message": "Welcome to the AiOne app!"
+    },
+    "time": {
+        "just_now": "Just now",
+        "minutes_ago": "minutes ago",
+        "hours_ago": "hours ago",
+        "days_ago": "days ago"
+    },
+    "language": {
+        "switch": "Switch Language",
+        "chinese": "中文",
+        "english": "English"
+    },
+    "settings": {
+        "title": "Application Settings",
+        "description": "Customize your app appearance and behavior settings",
+        "appearance": "Appearance Settings",
+        "theme_color": "Theme Color",
+        "sider_width": "Sidebar Width",
+        "app_settings": "Application Settings",
+        "language": "Language",
+        "auto_save": "Auto Save",
+        "notifications": "Notifications",
+        "window_state": "Window State",
+        "window_status": "Window Status",
+        "drag_status": "Drag Status",
+        "maximized": "Maximized",
+        "normal": "Normal Size",
+        "dragging": "Dragging",
+        "static": "Static",
+        "operations": "Operations",
+        "save_all": "Save All Settings",
+        "reset_default": "Reset to Default",
+        "save_success": "Settings saved successfully",
+        "save_failed": "Failed to save settings",
+        "reset_success": "Settings reset to default values",
+        "colors": {
+            "fresh_green": "Fresh Green",
+            "classic_blue": "Classic Blue",
+            "vibrant_purple": "Vibrant Purple",
+            "warm_orange": "Warm Orange",
+            "rose_red": "Rose Red"
+        }
+    },
+    "common": {
+        "confirm": "Confirm",
+        "cancel": "Cancel",
+        "ok": "OK",
+        "close": "Close",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add": "Add",
+        "search": "Search",
+        "refresh": "Refresh",
+        "loading": "Loading...",
+        "no_data": "No Data"
+    }
+}

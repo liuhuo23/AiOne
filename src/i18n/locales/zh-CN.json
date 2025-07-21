@@ -1,0 +1,133 @@
+{
+    "app": {
+        "title": "AiOne",
+        "welcome": "欢迎使用 AiOne",
+        "description": "这是一个基于 Tauri + React + Ant Design 构建的现代化桌面应用程序。",
+        "menu_description": "左侧菜单提供了各种功能模块的快速访问，您可以点击不同的菜单项来探索应用的功能。"
+    },
+    "menu": {
+        "home": "首页",
+        "documents": "文档",
+        "database": "数据库",
+        "dashboard": "仪表板",
+        "user_management": "用户管理",
+        "notifications": "通知",
+        "settings": "设置",
+        "ai_chat": "AI聊天"
+    },
+    "theme": {
+        "light": "亮色模式",
+        "dark": "暗色模式",
+        "system": "跟随系统",
+        "toggle": "切换主题",
+        "switched_to": "已切换至"
+    },
+    "notification": {
+        "title": "通知中心",
+        "empty": "暂无通知",
+        "unread": "未读通知",
+        "mark_all_read": "全部已读",
+        "clear_all": "清空",
+        "mark_read": "标记为已读",
+        "delete": "删除",
+        "test": {
+            "title": "通知",
+            "description": "点击下面的按钮测试全局通知功能。通知将显示在右上角，支持亮色和暗色主题的字体自适应，您可以通过左侧菜单的通知图标查看和管理所有通知。",
+            "success": "发送成功通知",
+            "info": "发送信息通知",
+            "warning": "发送警告通知",
+            "error": "发送错误通知",
+            "batch": "批量测试通知",
+            "dark_mode": "测试暗色主题字体",
+            "badge": "用于测试角标显示"
+        },
+        "messages": {
+            "success": "操作完成成功！",
+            "info": "这是一条信息提示",
+            "warning": "请注意相关风险",
+            "error": "操作失败，请重试",
+            "retry": "重试",
+            "retry_clicked": "您点击了重试按钮",
+            "theme_switched": "主题切换",
+            "dark_test": "暗色主题测试",
+            "dark_test_desc": "这是暗色主题下的测试通知，请检查字体是否清晰可见",
+            "test_success": "测试成功",
+            "font_normal": "字体显示正常！",
+            "badge_test": "Badge测试",
+            "badge_test_desc": "已发送5条通知，请查看左侧菜单的通知角标是否完整显示",
+            "notification_success": "这是一条成功消息，会根据当前主题显示相应样式",
+            "notification_info": "这是一条信息提示，支持亮色和暗色主题",
+            "notification_warning": "这是一条警告消息，具有良好的主题适配",
+            "notification_error": "这是一条错误消息，在不同主题下都有良好的可读性"
+        },
+        "types": {
+            "success": "成功",
+            "info": "信息",
+            "warning": "警告",
+            "error": "错误"
+        }
+    },
+    "greet": {
+        "title": "Tauri 集成测试",
+        "placeholder": "输入你的名字...",
+        "button": "问候",
+        "success": "问候成功",
+        "welcome_message": "欢迎使用 AiOne 应用！"
+    },
+    "time": {
+        "just_now": "刚才",
+        "minutes_ago": "分钟前",
+        "hours_ago": "小时前",
+        "days_ago": "天前"
+    },
+    "language": {
+        "switch": "切换语言",
+        "chinese": "中文",
+        "english": "English"
+    },
+    "settings": {
+        "title": "应用设置",
+        "description": "自定义您的应用外观和行为设置",
+        "appearance": "外观设置",
+        "theme_color": "主题色彩",
+        "sider_width": "侧边栏宽度",
+        "app_settings": "应用设置",
+        "language": "语言",
+        "auto_save": "自动保存",
+        "notifications": "通知提醒",
+        "window_state": "窗口状态",
+        "window_status": "窗口状态",
+        "drag_status": "拖拽状态",
+        "maximized": "最大化",
+        "normal": "正常大小",
+        "dragging": "拖拽中",
+        "static": "静止",
+        "operations": "操作",
+        "save_all": "保存所有设置",
+        "reset_default": "重置为默认设置",
+        "save_success": "设置已保存",
+        "save_failed": "保存设置失败",
+        "reset_success": "设置已重置为默认值",
+        "colors": {
+            "fresh_green": "清新绿色",
+            "classic_blue": "经典蓝色",
+            "vibrant_purple": "活力紫色",
+            "warm_orange": "温暖橙色",
+            "rose_red": "玫瑰红色"
+        }
+    },
+    "common": {
+        "confirm": "确认",
+        "cancel": "取消",
+        "ok": "确定",
+        "close": "关闭",
+        "save": "保存",
+        "edit": "编辑",
+        "delete": "删除",
+        "add": "添加",
+        "search": "搜索",
+        "refresh": "刷新",
+        "loading": "加载中...",
+        "no_data": "暂无数据"
+    }
+}

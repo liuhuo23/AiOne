@@ -1,0 +1,335 @@
+/* =====================================   NotificationCenter 组件样式   ===================================== */
+
+/* 通知项基础样式 */
+.notification-item {
+    transition: all 0.3s ease;
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 8px;
+    padding: 12px;
+    background: var(--ant-color-bg-container);
+    border: 1px solid var(--ant-color-border);
+}
+
+.notification-item:hover {
+    background: var(--ant-color-fill-tertiary);
+    transform: translateX(-2px);
+    box-shadow: var(--shadow-1);
+}
+
+.notification-item.unread {
+    background: linear-gradient(90deg, var(--ant-color-bg-container) 0%, var(--ant-color-fill-quaternary) 100%);
+    border-left: 3px solid var(--ant-primary-color);
+}
+
+.notification-item.unread:hover {
+    background: var(--ant-color-fill-tertiary);
+}
+
+/* 通知抽屉样式 */
+.notification-drawer .ant-drawer-content {
+    background: var(--ant-color-bg-layout);
+}
+
+.notification-drawer .ant-drawer-header {
+    background: var(--ant-color-bg-container);
+    border-bottom: 1px solid var(--ant-color-border);
+}
+
+.notification-drawer .ant-drawer-body {
+    background: var(--ant-color-bg-layout);
+}
+
+/* 通知面板样式 */
+.ant-drawer-body .ant-list-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ant-color-split);
+    background: var(--ant-color-bg-container);
+    margin-bottom: 4px;
+    border-radius: var(--border-radius-base);
+    transition: all 0.2s ease;
+}
+
+.ant-drawer-body .ant-list-item:hover {
+    background: var(--ant-color-fill-tertiary);
+    transform: translateX(-2px);
+}
+
+.ant-drawer-body .ant-list-item:last-child {
+    border-bottom: none;
+}
+
+.ant-drawer-body .ant-list-item-meta-avatar {
+    margin-right: 12px;
+}
+
+.ant-drawer-body .ant-list-item-meta-title {
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--ant-color-text);
+}
+
+.ant-drawer-body .ant-list-item-meta-description {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--ant-color-text-secondary);
+}
+
+.ant-drawer-body .ant-list-item-action {
+    margin-left: 8px;
+}
+
+/* 自定义通知样式 */
+.custom-notification {
+    border-radius: var(--border-radius-lg) !important;
+    box-shadow: var(--shadow-2) !important;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--ant-color-border) !important;
+    background: var(--ant-color-bg-container) !important;
+}
+
+.custom-notification .ant-notification-notice-message {
+    color: var(--ant-color-text) !important;
+    font-weight: 600;
+}
+
+.custom-notification .ant-notification-notice-description {
+    color: var(--ant-color-text-secondary) !important;
+}
+
+/* 强制应用主题字体颜色 - 亮色主题 */
+.notification-light,
+.ant-notification-light .ant-notification-notice {
+    background: var(--bg-color-light) !important;
+    border: 1px solid var(--border-color-light) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.notification-light .ant-notification-notice-message,
+.ant-notification-light .ant-notification-notice-message {
+    color: var(--text-color-light) !important;
+    font-weight: 600 !important;
+}
+
+.notification-light .ant-notification-notice-description,
+.ant-notification-light .ant-notification-notice-description {
+    color: var(--text-secondary-light) !important;
+}
+
+/* 强制应用主题字体颜色 - 暗色主题 */
+.notification-dark,
+.ant-notification-dark .ant-notification-notice {
+    background: var(--bg-color-dark) !important;
+    border: 1px solid var(--border-color-dark) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+.notification-dark .ant-notification-notice-message,
+.ant-notification-dark .ant-notification-notice-message {
+    color: var(--text-color-dark) !important;
+    font-weight: 600 !important;
+}
+
+.notification-dark .ant-notification-notice-description,
+.ant-notification-dark .ant-notification-notice-description {
+    color: var(--text-secondary-dark) !important;
+}
+
+/* 全局通知容器的主题样式 */
+.ant-notification-topRight .ant-notification-notice {
+    background: var(--ant-color-bg-container) !important;
+    border: 1px solid var(--ant-color-border) !important;
+}
+
+.ant-notification-topRight .ant-notification-notice-message {
+    color: var(--ant-color-text) !important;
+}
+
+.ant-notification-topRight .ant-notification-notice-description {
+    color: var(--ant-color-text-secondary) !important;
+}
+
+/* 强制修复暗色主题下的通知文字颜色 */
+[data-theme="dark"] .ant-notification .ant-notification-notice {
+    background: #141414 !important;
+    border: 1px solid #424242 !important;
+}
+
+[data-theme="dark"] .ant-notification .ant-notification-notice-message {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="dark"] .ant-notification .ant-notification-notice-description {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+[data-theme="dark"] .ant-notification .ant-notification-notice-close {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+[data-theme="dark"] .ant-notification .ant-notification-notice-close:hover {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* 亮色主题的通知样式 */
+[data-theme="light"] .ant-notification .ant-notification-notice {
+    background: #ffffff !important;
+    border: 1px solid #d9d9d9 !important;
+}
+
+[data-theme="light"] .ant-notification .ant-notification-notice-message {
+    color: rgba(0, 0, 0, 0.88) !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] .ant-notification .ant-notification-notice-description {
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+
+[data-theme="light"] .ant-notification .ant-notification-notice-close {
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+
+[data-theme="light"] .ant-notification .ant-notification-notice-close:hover {
+    color: rgba(0, 0, 0, 0.88) !important;
+}
+
+/* 亮色主题特定样式 */
+.notification-drawer-light .ant-drawer-content {
+    background: var(--bg-secondary-light);
+}
+
+/* 暗色主题特定样式 */
+.notification-drawer-dark .ant-drawer-content {
+    background: var(--bg-secondary-dark);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .custom-notification {
+        margin: 8px !important;
+        width: calc(100vw - 16px) !important;
+        max-width: none !important;
+    }
+
+    .notification-drawer .ant-drawer-content {
+        width: 100vw !important;
+        max-width: none !important;
+    }
+}
+
+.ant-drawer-body .ant-list-item-action li {
+    padding: 0 4px;
+}
+
+/* 菜单中的通知徽章样式 */
+.app-menu .ant-menu-item {
+    overflow: visible !important;
+    /* 确保Badge不被裁剪 */
+    position: relative !important;
+}
+
+.app-menu .ant-menu-item .ant-badge {
+    display: inline-block;
+    position: relative;
+}
+
+.app-menu .ant-menu-item .ant-badge .ant-badge-count {
+    background: var(--error-color) !important;
+    border-color: var(--error-color) !important;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9) !important;
+    /* 更明显的白色边框 */
+    font-size: 10px !important;
+    min-width: 18px !important;
+    /* 稍微增大尺寸 */
+    height: 18px !important;
+    line-height: 18px !important;
+    right: -12px !important;
+    /* 调整位置确保完全可见 */
+    top: -12px !important;
+    position: absolute !important;
+    z-index: 100 !important;
+    /* 更高的z-index */
+    transform: scale(1) !important;
+    border-radius: 9px !important;
+    font-weight: bold !important;
+    color: white !important;
+}
+
+/* 确保Badge在菜单容器中也完全可见 */
+.app-menu,
+.app-menu-top,
+.app-menu-bottom {
+    overflow: visible !important;
+}
+
+/* Sider容器也需要支持overflow visible */
+.app-sider .ant-layout-sider-children {
+    overflow: visible !important;
+}
+
+.app-sider .ant-menu {
+    overflow: visible !important;
+}
+
+/* =================================== 
+   强制修复通知字体颜色 - 最高优先级
+   =================================== */
+
+/* 暗色主题通知强制样式 - 使用最高优先级选择器 */
+html[data-theme="dark"] body .ant-notification .ant-notification-notice,
+html[data-theme="dark"] .ant-notification .ant-notification-notice {
+    background: #1f1f1f !important;
+    border: 1px solid #434343 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+html[data-theme="dark"] body .ant-notification .ant-notification-notice-message,
+html[data-theme="dark"] .ant-notification .ant-notification-notice-message,
+html[data-theme="dark"] body .ant-notification .ant-notification-notice-message h4,
+html[data-theme="dark"] .ant-notification .ant-notification-notice-message h4 {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="dark"] body .ant-notification .ant-notification-notice-description,
+html[data-theme="dark"] .ant-notification .ant-notification-notice-description,
+html[data-theme="dark"] body .ant-notification .ant-notification-notice-description div,
+html[data-theme="dark"] .ant-notification .ant-notification-notice-description div {
+    color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* 亮色主题通知强制样式 */
+html[data-theme="light"] body .ant-notification .ant-notification-notice,
+html[data-theme="light"] .ant-notification .ant-notification-notice {
+    background: #ffffff !important;
+    border: 1px solid #d9d9d9 !important;
+    color: rgba(0, 0, 0, 0.88) !important;
+}
+
+html[data-theme="light"] body .ant-notification .ant-notification-notice-message,
+html[data-theme="light"] .ant-notification .ant-notification-notice-message,
+html[data-theme="light"] body .ant-notification .ant-notification-notice-message h4,
+html[data-theme="light"] .ant-notification .ant-notification-notice-message h4 {
+    color: rgba(0, 0, 0, 0.88) !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] body .ant-notification .ant-notification-notice-description,
+html[data-theme="light"] .ant-notification .ant-notification-notice-description,
+html[data-theme="light"] body .ant-notification .ant-notification-notice-description div,
+html[data-theme="light"] .ant-notification .ant-notification-notice-description div {
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .ant-drawer {
+        width: 90vw !important;
+    }
+
+    .notification-item {
+        padding: 8px;
+        margin-bottom: 4px;
+    }
+}
