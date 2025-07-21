@@ -61,12 +61,7 @@ check_git_status() {
     fi
 }
 
-# 更新版本号
-update_version() {
-    local version=$1
-    echo -e "${BLUE}更新版本号到 $version...${NC}"
-    echo -e "${GREEN}版本号已更新${NC}"
-}
+
 
 # 创建并推送标签
 create_and_push_tag() {
@@ -77,13 +72,28 @@ create_and_push_tag() {
     git add package.json src-tauri/Cargo.toml
     git commit -m "chore: bump version to $tag" || true
     
+    # 检查本地标签是否存在，如果存在则删除
+    if git tag -l | grep -q "^$tag$"; then
+        echo -e "${YELLOW}本地标签 $tag 已存在，正在删除...${NC}"
+        git tag -d "$tag"
+    fi
+    
     # 创建标签
     git tag -a "$tag" -m "Release $tag"
     
     # 推送到远程
     echo -e "${BLUE}推送到远程仓库...${NC}"
     git push origin main
-    git push origin "$tag"
+    
+    # 检查远程标签是否存在，如果存在则强制推送覆盖
+    if git ls-remote --tags origin | grep -q "refs/tags/$tag"; then
+        echo -e "${YELLOW}远程标签 $tag 已存在，正在强制更新...${NC}"
+        git push origin --delete tag "$tag" 2>/dev/null || true
+        git push origin "$tag"
+    else
+        echo -e "${BLUE}推送新标签 $tag...${NC}"
+        git push origin "$tag"
+    fi
     
     echo -e "${GREEN}标签 $tag 已创建并推送${NC}"
 }
@@ -165,7 +175,7 @@ main() {
     
     # 执行发布流程
     check_git_status
-    update_version "$version"
+    # update_version "$version"
     create_and_push_tag "$tag"
     check_actions_status "$tag"
     
