@@ -254,19 +254,32 @@ jobs:
     if: always() && needs.create-release.result == 'success' && needs.build-tauri.result == 'success'
 
     steps:
-      - name: Publish release
+      - uses: actions/checkout@v4
+      
+      - name: Get release version
+        run: |
+          # 从 release ID 获取版本信息
+          echo "Getting release information..."
+        
+      - name: Publish release with changelog
         id: publish-release
         uses: actions/github-script@v7
         env:
           release_id: ${{ needs.create-release.outputs.release_id }}
         with:
           script: |
+            const fs = require('fs');
+            
+            // 获取当前 release 信息
             const { data: release } = await github.rest.repos.getRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: process.env.release_id
             });
             
+            console.log(`Processing release: ${release.tag_name}`);
+            
+            // 获取构建产物
             const { data: assets } = await github.rest.repos.listReleaseAssets({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -274,20 +287,128 @@ jobs:
             });
             
             console.log(`Found ${assets.length} assets for release ${release.tag_name}`);
-            assets.forEach(asset => console.log(`- ${asset.name}`));
+            assets.forEach(asset => console.log(`- ${asset.name} (${(asset.size / 1024 / 1024).toFixed(2)} MB)`));
             
+            // 读取 CHANGELOG.md 并提取相关版本的内容
+            let changelogContent = '';
+            try {
+              const changelogPath = 'CHANGELOG.md';
+              if (fs.existsSync(changelogPath)) {
+                const changelog = fs.readFileSync(changelogPath, 'utf8');
+                
+                // 提取版本号（去掉 v 前缀）
+                const versionWithoutV = release.tag_name.replace(/^v/, '');
+                console.log(`Looking for changelog entry for version: ${versionWithoutV}`);
+                
+                // 使用正则表达式提取特定版本的内容
+                const versionRegex = new RegExp(`## \\[${versionWithoutV}\\]([\\s\\S]*?)(?=## \\[|$)`, 'i');
+                const match = changelog.match(versionRegex);
+                
+                if (match && match[1]) {
+                  changelogContent = match[1].trim();
+                  console.log(`Found changelog content for version ${versionWithoutV}`);
+                } else {
+                  console.log(`No changelog entry found for version ${versionWithoutV}`);
+                }
+              } else {
+                console.log('CHANGELOG.md not found');
+              }
+            } catch (error) {
+              console.error('Error reading CHANGELOG.md:', error.message);
+            }
+            
+            // 构建发布描述
+            let releaseBody = '';
+            
+            if (changelogContent) {
+              releaseBody = `# AiOne ${release.tag_name}\n\n${changelogContent}\n\n`;
+            } else {
+              releaseBody = `# AiOne ${release.tag_name}\n\nRelease ${release.tag_name}\n\n`;
+            }
+            
+            // 添加下载信息
+            releaseBody += `## 📦 下载\n\n`;
+            releaseBody += `选择适合您操作系统的安装包：\n\n`;
+            
+            // 按平台分组显示资源
+            const platformAssets = {
+              windows: assets.filter(asset => asset.name.includes('.msi') || asset.name.includes('.exe')),
+              macos: assets.filter(asset => asset.name.includes('.dmg') || asset.name.includes('.app')),
+              linux: assets.filter(asset => asset.name.includes('.deb') || asset.name.includes('.AppImage'))
+            };
+            
+            if (platformAssets.windows.length > 0) {
+              releaseBody += `### Windows\n`;
+              platformAssets.windows.forEach(asset => {
+                releaseBody += `- [${asset.name}](${asset.browser_download_url}) (${(asset.size / 1024 / 1024).toFixed(2)} MB)\n`;
+              });
+              releaseBody += `\n`;
+            }
+            
+            if (platformAssets.macos.length > 0) {
+              releaseBody += `### macOS\n`;
+              platformAssets.macos.forEach(asset => {
+                releaseBody += `- [${asset.name}](${asset.browser_download_url}) (${(asset.size / 1024 / 1024).toFixed(2)} MB)\n`;
+              });
+              releaseBody += `\n`;
+            }
+            
+            if (platformAssets.linux.length > 0) {
+              releaseBody += `### Linux\n`;
+              platformAssets.linux.forEach(asset => {
+                releaseBody += `- [${asset.name}](${asset.browser_download_url}) (${(asset.size / 1024 / 1024).toFixed(2)} MB)\n`;
+              });
+              releaseBody += `\n`;
+            }
+            
+            // 添加系统要求
+            releaseBody += `## 💻 系统要求\n\n`;
+            releaseBody += `- **Windows**: Windows 10 版本 1903 或更高\n`;
+            releaseBody += `- **macOS**: macOS 10.15 或更高\n`;
+            releaseBody += `- **Linux**: 支持 GTK 3.24 或更高的发行版\n\n`;
+            
+            // 添加安装说明
+            releaseBody += `## 🚀 安装说明\n\n`;
+            releaseBody += `1. 从上方下载适合您系统的安装包\n`;
+            releaseBody += `2. 运行安装程序并按照提示完成安装\n`;
+            releaseBody += `3. 启动 AiOne 开始使用\n\n`;
+            
+            // 添加项目链接
+            releaseBody += `## 🔗 相关链接\n\n`;
+            releaseBody += `- [项目主页](https://github.com/${context.repo.owner}/${context.repo.repo})\n`;
+            releaseBody += `- [问题反馈](https://github.com/${context.repo.owner}/${context.repo.repo}/issues)\n`;
+            releaseBody += `- [更新日志](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/CHANGELOG.md)\n`;
+            
+            console.log('Updating release with enhanced description...');
+            
+            // 更新 release
             await github.rest.repos.updateRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               release_id: process.env.release_id,
+              body: releaseBody,
               draft: false,
               prerelease: release.tag_name.includes('-')
             });
             
-            console.log(`Released ${release.tag_name} successfully!`);
+            console.log(`✅ Released ${release.tag_name} successfully!`);
+            console.log(`🔗 Release URL: ${release.html_url}`);
+            
+            return {
+              tag: release.tag_name,
+              url: release.html_url,
+              assets_count: assets.length
+            };
       
       - name: Notify on success
         if: success()
         run: |
           echo "🎉 Release published successfully!"
-          echo "Check the release at: https://github.com/${{ github.repository }}/releases"
+          echo "📋 Release details:"
+          echo "  - Tag: ${{ fromJSON(steps.publish-release.outputs.result).tag }}"
+          echo "  - Assets: ${{ fromJSON(steps.publish-release.outputs.result).assets_count }} files"
+          echo "🔗 Release URL: ${{ fromJSON(steps.publish-release.outputs.result).url }}"
+          echo ""
+          echo "📦 Download links:"
+          echo "  - GitHub Releases: https://github.com/${{ github.repository }}/releases"
+          echo "  - Latest Release: https://github.com/${{ github.repository }}/releases/latest"
