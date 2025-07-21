@@ -33,28 +33,6 @@ jobs:
           node-version: 20
           cache: 'npm'
       
-      - name: Check permissions
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            try {
-              const { data: repo } = await github.rest.repos.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo
-              });
-              console.log('Repository access: OK');
-              console.log('Repository permissions:', repo.permissions);
-              
-              const { data: user } = await github.rest.users.getAuthenticated();
-              console.log('Authenticated as:', user.login);
-              
-              return true;
-            } catch (error) {
-              console.error('Permission check failed:', error);
-              throw error;
-            }
-          
       - name: Get version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
