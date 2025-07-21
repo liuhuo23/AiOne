@@ -27,7 +27,7 @@ export interface NotificationState {
     items: NotificationItem[];
     unreadCount: number;
     show: boolean; // 是否显示通知面板
-    position: 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft';
+    position: 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft' | 'top' | 'bottom';
 }
 
 // 定义应用状态的类型
@@ -117,7 +117,7 @@ const initialState: AppState = {
         items: [],
         unreadCount: 0,
         show: false,
-        position: 'topRight',
+        position: 'top',
     },
 };
 

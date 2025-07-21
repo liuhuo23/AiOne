@@ -11,6 +11,7 @@ import ThemeIntegration from "./components/ThemeIntegration";
 import menuItems from "./menus/menu";
 import "./App.css";
 
+
 const { Content } = Layout;
 
 
@@ -21,7 +22,6 @@ const AppLayout = () => {
   const { current, setCurrentPage } = useCurrentPage();
   const { theme: appTheme } = useTheme();
   const { currentTheme } = useThemeManager();
-
   // 获取当前页面标题
   const getCurrentPageTitle = () => {
     const currentPath = location.pathname === '/' ? '/home' : location.pathname;
@@ -46,25 +46,27 @@ const AppLayout = () => {
   };
 
   return (
-    <ConfigProvider theme={antdThemeConfig}>
-      <ThemeIntegration>
-        <Layout className="app-layout" style={{ minHeight: '100vh' }}>
-          {/* 自定义标题栏 */}
-          <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} />
+    <>
+      <ConfigProvider theme={antdThemeConfig} >
+        <ThemeIntegration>
+          <Layout className="app-layout" style={{ minHeight: '100vh' }}>
+            {/* 自定义标题栏 */}
+            <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} />
 
-          <AppSider width={appTheme.siderWidth} />
+            <AppSider width={appTheme.siderWidth} />
 
-          <Layout style={{ marginLeft: `var(--content-margin-left)` }}>
-            <Content className="app-content">
-              <AppRoutes />
-            </Content>
+            <Layout style={{ marginLeft: `var(--content-margin-left)` }}>
+              <Content className="app-content">
+                <AppRoutes />
+              </Content>
+            </Layout>
+
+            {/* 通知中心抽屉 */}
+            <NotificationCenter />
           </Layout>
-
-          {/* 通知中心抽屉 */}
-          <NotificationCenter />
-        </Layout>
-      </ThemeIntegration>
-    </ConfigProvider>
+        </ThemeIntegration>
+      </ConfigProvider >
+    </>
   );
 };
 

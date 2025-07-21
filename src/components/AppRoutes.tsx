@@ -5,7 +5,7 @@ import UserManagementPage from "../pages/UserManagementPage";
 import DocumentsPage from "../pages/DocumentsPage";
 import DatabasePage from "../pages/DatabasePage";
 import NotificationsPage from "../pages/NotificationsPage";
-import SettingsPage from "../pages/SettingsPage";
+import SettingsPage from "../pages/settings/SettingsPage";
 import Assistants from "../pages/Assistants";
 
 const AppRoutes = () => {
