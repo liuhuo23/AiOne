@@ -10,12 +10,10 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "macOSPrivateApi": true,
     "windows": [
       {
         "label": "main",
         "title": "AiOne",
-        "transparent": true,         // 允许透明背景（可配可不配）
         "titleBarStyle": "Overlay",  // 标题栏叠加在内容之上，实际也不显示
         "hiddenTitle": true,        // 隐藏窗口标题（仅 macOS）
         "height": 800,

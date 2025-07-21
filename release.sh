@@ -65,17 +65,6 @@ check_git_status() {
 update_version() {
     local version=$1
     echo -e "${BLUE}更新版本号到 $version...${NC}"
-    
-    # 更新 package.json
-    if command -v jq > /dev/null; then
-        jq ".version = \"$version\"" package.json > package.json.tmp && mv package.json.tmp package.json
-    else
-        sed -i.bak "s/\"version\": \".*\"/\"version\": \"$version\"/" package.json && rm package.json.bak
-    fi
-    
-    # 更新 Cargo.toml
-    sed -i.bak "s/version = \".*\"/version = \"$version\"/" src-tauri/Cargo.toml && rm src-tauri/Cargo.toml.bak
-    
     echo -e "${GREEN}版本号已更新${NC}"
 }
 
