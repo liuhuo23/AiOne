@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 1
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
 
