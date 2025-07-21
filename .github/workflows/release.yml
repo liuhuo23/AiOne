@@ -17,22 +17,21 @@ env:
 
 jobs:
   create-release:
-    # permissions:
-    #   contents: write
+    permissions:
+      contents: write
     runs-on: ubuntu-20.04
     timeout-minutes: 1
     outputs:
       release_id: ${{ steps.create-release.outputs.result }}
 
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: start
         run: echo "Starting release creation..."
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
       
       - name: Get version
         run: |
