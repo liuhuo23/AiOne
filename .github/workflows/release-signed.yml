@@ -83,7 +83,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          run_install: false
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -97,10 +102,10 @@ jobs:
           key: ${{ matrix.target }}
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Build frontend
-        run: npm run build
+        run: pnpm run build
 
       - name: Build and sign (macOS)
         if: matrix.platform == 'macos-latest'
