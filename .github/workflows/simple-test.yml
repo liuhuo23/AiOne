@@ -1,0 +1,54 @@
+name: 'Simple Test'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Test version'
+        required: true
+        type: string
+        default: 'v0.0.1-test'
+
+jobs:
+  simple-test:
+    permissions:
+      contents: write
+    runs-on: ubuntu-20.04
+    timeout-minutes: 2
+    
+    steps:
+      - name: Test start
+        run: |
+          echo "🚀 Starting simple test..."
+          echo "Runner OS: $RUNNER_OS"
+          echo "GitHub repository: ${{ github.repository }}"
+          echo "GitHub actor: ${{ github.actor }}"
+          echo "Input version: ${{ github.event.inputs.version }}"
+          
+      - name: Test GitHub API access
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            console.log('Testing basic GitHub API access...');
+            
+            try {
+              const { data: user } = await github.rest.users.getAuthenticated();
+              console.log('✅ Authenticated as:', user.login);
+              
+              const { data: repo } = await github.rest.repos.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              console.log('✅ Repository access OK:', repo.full_name);
+              
+              return 'SUCCESS';
+            } catch (error) {
+              console.error('❌ API access failed:', error);
+              throw error;
+            }
+            
+      - name: Test complete
+        run: |
+          echo "✅ Simple test completed successfully!"
+          echo "No hanging issues detected."
