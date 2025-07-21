@@ -59,13 +59,31 @@ jobs:
       - name: Generate release notes
         id: release-notes
         run: |
+          echo "Generating release notes for version: ${PACKAGE_VERSION}"
           if [ -f "CHANGELOG.md" ]; then
-            echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-            sed -n "/## \[${PACKAGE_VERSION#v}\]/,/## \[/p" CHANGELOG.md | head -n -1 >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+            echo "Found CHANGELOG.md, extracting notes..."
+            # 使用更兼容的方式提取 changelog
+            VERSION_WITHOUT_V="${PACKAGE_VERSION#v}"
+            echo "Looking for version: ${VERSION_WITHOUT_V}"
+            
+            # 提取版本相关的 changelog 内容
+            CHANGELOG_CONTENT=$(sed -n "/## \[${VERSION_WITHOUT_V}\]/,/^## \[/p" CHANGELOG.md | sed '$d' || echo "")
+            
+            if [ -n "$CHANGELOG_CONTENT" ]; then
+              echo "Found changelog content for version ${VERSION_WITHOUT_V}"
+              echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
+              echo "$CHANGELOG_CONTENT" >> $GITHUB_ENV
+              echo "EOF" >> $GITHUB_ENV
+            else
+              echo "No specific changelog found for version ${VERSION_WITHOUT_V}, using default"
+              echo "RELEASE_NOTES=Release ${PACKAGE_VERSION}" >> $GITHUB_ENV
+            fi
           else
+            echo "No CHANGELOG.md found, using default release notes"
             echo "RELEASE_NOTES=Release ${PACKAGE_VERSION}" >> $GITHUB_ENV
           fi
+          
+          echo "Release notes generated successfully"
         
       - name: Create release
         id: create-release
