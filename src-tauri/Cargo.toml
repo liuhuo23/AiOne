@@ -1,5 +1,5 @@
 [package]
-authors = ["you"]
+authors = ["liuhuo"]
 description = "A Tauri App"
 edition = "2021"
 name = "aione"
@@ -24,6 +24,8 @@ tauri = {version = "2.7.0", features = ["config-json5"] }
 tauri-plugin-clipboard-manager = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-opener = "2"
+tauri-plugin-process = "2"
+tauri-plugin-updater = "2"
 
 [target."cfg(target_os = \"macos\")".dependencies]
 cocoa = "0.26.1"

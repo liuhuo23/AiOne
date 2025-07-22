@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Typography, Space, Row, Col, Button, message } from 'antd';
 import { useLoading } from '@/store/AppStateContext';
 import { useOptimizedWindowState } from '@/hooks/useOptimizedWindowState';
+import UpdateManager from '@/components/UpdateManager';
 
 const SystemPage: React.FC = () => {
     const { isMaximized, isDragging } = useOptimizedWindowState();
@@ -74,6 +75,17 @@ const SystemPage: React.FC = () => {
                                     <Typography.Text strong>构建环境</Typography.Text>
                                     <Typography.Text>Tauri + React</Typography.Text>
                                 </div>
+                            </Space>
+                        </Card>
+                    </Col>
+
+                    <Col xs={24}>
+                        <Card title="应用更新">
+                            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                                <Typography.Paragraph type="secondary">
+                                    检查并安装应用更新
+                                </Typography.Paragraph>
+                                <UpdateManager />
                             </Space>
                         </Card>
                     </Col>
