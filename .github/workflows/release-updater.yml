@@ -1,0 +1,79 @@
+name: 'Release with Auto-Update'
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, ubuntu-20.04, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Rust setup
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Sync node version and setup cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Build the app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'AiOne ${{ github.ref_name }}'
+          releaseBody: |
+            🎉 AiOne ${{ github.ref_name }} 发布！
+            
+            ## 新特性
+            - 支持自动更新功能
+            - 优化用户体验
+            
+            ## 下载
+            - **macOS**: 下载 `.dmg` 文件
+            - **Windows**: 下载 `.msi` 文件  
+            - **Linux**: 下载 `.deb` 或 `.AppImage` 文件
+            
+            ## 自动更新
+            应用内置自动更新功能，启动后会自动检查更新。
+            
+            ---
+            
+            查看完整更新日志: [CHANGELOG.md](https://github.com/liuhuo23/AiOne/blob/main/CHANGELOG.md)
+          releaseDraft: false
+          prerelease: false
+          includeUpdaterJson: true

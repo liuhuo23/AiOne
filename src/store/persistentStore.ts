@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { AppState } from './AppStateContext';
+import { saveConfigToFile, loadConfigFromFile } from './fileStorage';
 
 const STORAGE_KEY = 'aione-app-state';
 
 // 需要持久化的状态键
 const PERSISTENT_KEYS: (keyof AppState)[] = ['theme', 'settings'];
+
+// 存储类型
+export type StorageType = 'localStorage' | 'file';
 
 // 保存状态到 localStorage
 export const saveStateToStorage = (state: AppState) => {
@@ -43,19 +47,56 @@ export const clearStoredState = () => {
     }
 };
 
+// 保存状态（支持多种存储方式）
+export const saveState = async (state: AppState, storageType: StorageType = 'localStorage') => {
+    switch (storageType) {
+        case 'localStorage':
+            saveStateToStorage(state);
+            break;
+        case 'file':
+            try {
+                await saveConfigToFile(state);
+            } catch (error) {
+                console.warn('文件存储失败，回退到 localStorage:', error);
+                saveStateToStorage(state);
+            }
+            break;
+    }
+};
+
+// 加载状态（支持多种存储方式）
+export const loadState = async (storageType: StorageType = 'localStorage'): Promise<Partial<AppState> | null> => {
+    switch (storageType) {
+        case 'localStorage':
+            return loadStateFromStorage();
+        case 'file':
+            try {
+                const fileState = await loadConfigFromFile();
+                if (fileState) {
+                    return fileState;
+                }
+                // 如果文件加载失败，尝试从 localStorage 加载
+                return loadStateFromStorage();
+            } catch (error) {
+                console.warn('文件加载失败，回退到 localStorage:', error);
+                return loadStateFromStorage();
+            }
+    }
+};
+
 // 自定义 Hook 用于状态持久化
-export const usePersistentState = (state: AppState) => {
+export const usePersistentState = (state: AppState, storageType: StorageType = 'localStorage') => {
     // 保存状态变化
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            saveStateToStorage(state);
+            saveState(state, storageType);
         }, 500); // 防抖，500ms 后保存
 
         return () => clearTimeout(timeoutId);
-    }, [state.theme, state.settings]); // 只监听需要持久化的状态
+    }, [state.theme, state.settings, storageType]); // 只监听需要持久化的状态
 
     return {
-        saveState: () => saveStateToStorage(state),
+        saveState: () => saveState(state, storageType),
         clearState: clearStoredState,
     };
 };

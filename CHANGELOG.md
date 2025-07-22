@@ -1,38 +1,87 @@
-# Changelog
+# 更新日志
 
-All notable changes to this project will be documented in this file.
+项目的所有重要变更都将记录在此文件中。
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+格式基于 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)，
+项目遵循 [语义化版本](https://semver.org/spec/v2.0.0.html)。
 
-## [Unreleased]
+## [未发布]
 
-### Added
+### 新增
+- 集成 Tauri 官方自动更新功能
+- 自动检查更新和后台下载
+- 更新管理器组件，支持手动检查更新
+- 签名验证确保更新安全性
+- 自动化发布脚本和 GitHub Actions 工作流
+- 更新清单文件自动生成
+
+### 变更
+- 在系统设置页面添加更新管理功能
+- 应用启动时自动静默检查更新
+
+### 修复
 - 
 
-### Changed
-- 
+## [0.0.2] - 2025-07-22
 
-### Fixed
-- 
+### 新增
+- 设置页面重构，拆分为多个子页面（外观、通用、存储、系统）
+- 基于文件的配置存储，提供更好的设置持久化
+- 窗口状态管理优化，减少 IPC 调用
+- TypeScript 路径别名支持（@/ 指向 src/）
+- 增强的 Vite 配置，改善开发体验
+- 通知位置管理系统
+- 存储页面中显示配置文件位置
+- 剪贴板功能与 Tauri 插件集成
+
+### 变更
+- 将设置页面拆分为多个有组织的子页面，提高可维护性
+- 改进窗口状态管理，减少频繁的 IPC 调用
+- 增强通知系统，支持可配置位置（默认：顶部）
+- 更新 TypeScript 配置，支持路径别名
+- 从 localStorage 迁移到基于文件的设置存储
+
+### 修复
+- 窗口状态轮询性能问题
+- 设置子页面间的导航问题
+- 文件存储失败时回退到 localStorage 的机制
+
+## [0.0.1] - 2025-07-21
+
+### 新增
+- 增强的发布描述，包含版本信息和下载链接
+- Bug 报告和功能请求的问题模板
+- 增强应用状态系统的持久状态管理
+- CI/CD 的简单测试工作流
+
+### 变更
+- 从 npm 切换到 pnpm 进行依赖管理和构建
+- CI 中将 Ubuntu 环境更新到最新版本
+- 改进发布说明的更新日志读取逻辑
+
+### 修复
+- Cargo.toml 格式问题，确保依赖项空格一致性
+- 发布工作流优化，改进标签创建和推送逻辑
+- 移除 Ubuntu 支持并调整分支触发条件
+- 版本号更新和移除 beta 标签
 
 ## [0.1.0] - 2025-07-21
 
-### Added
-- Initial release of AiOne desktop application
-- React + TypeScript frontend with Ant Design UI
-- Tauri backend for cross-platform desktop support
-- Multi-language support (English and Chinese)
-- Theme switching (Light/Dark mode)
-- Custom title bar for native feel
-- Responsive design with modern CSS
-- GitHub Actions for automated building and releasing
+### 新增
+- AiOne 桌面应用的初始发布
+- React + TypeScript 前端，使用 Ant Design UI
+- Tauri 后端，支持跨平台桌面应用
+- 多语言支持（英语和中文）
+- 主题切换（明亮/暗黑模式）
+- 自定义标题栏，提供原生感受
+- 响应式设计和现代 CSS
+- GitHub Actions 自动构建和发布
 
-### Features
-- Dashboard with welcome interface
-- User management system
-- Settings and configuration
-- Notification center
-- Multiple page routing
-- Persistent state management
-- Modern gradient design system
+### 功能特性
+- 带有欢迎界面的仪表板
+- 用户管理系统
+- 设置和配置
+- 通知中心
+- 多页面路由
+- 持久状态管理
+- 现代渐变设计系统
