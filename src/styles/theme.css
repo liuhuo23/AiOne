@@ -41,9 +41,9 @@
     --bg-color-light: #ffffff;
     --bg-secondary-light: #fafafa;
     --bg-tertiary-light: #f5f5f5;
-    --text-color-light: rgba(0, 0, 0, 0.88);
-    --text-secondary-light: rgba(0, 0, 0, 0.65);
-    --text-tertiary-light: rgba(0, 0, 0, 0.45);
+    --text-color-light: #333333;
+    --text-secondary-light: #666666;
+    --text-tertiary-light: #999999;
     --border-color-light: #d9d9d9;
     --border-color-split-light: #f0f0f0;
 
@@ -51,9 +51,9 @@
     --bg-color-dark: #141414;
     --bg-secondary-dark: #1f1f1f;
     --bg-tertiary-dark: #262626;
-    --text-color-dark: rgba(255, 255, 255, 0.85);
-    --text-secondary-dark: rgba(255, 255, 255, 0.65);
-    --text-tertiary-dark: rgba(255, 255, 255, 0.45);
+    --text-color-dark: #ffffff;
+    --text-secondary-dark: #e0e0e0;
+    --text-tertiary-dark: #b0b0b0;
     --border-color-dark: #424242;
     --border-color-split-dark: #303030;
 
@@ -495,6 +495,19 @@ body {
     background-color: var(--ant-color-bg-container);
     color: var(--ant-color-text);
     animation: fadeIn 0.3s ease-out;
+}
+
+/* 设置页面布局容器 */
+.page-layout-container {
+    height: calc(100vh - var(--titlebar-height) - 5px - 12px - 12px);
+    /* 减去标题栏高度和边距 */
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 16px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 /* =====================================

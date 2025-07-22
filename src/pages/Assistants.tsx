@@ -1,11 +1,18 @@
+import { Splitter } from 'antd';
 import React from 'react';
+import AssistantsList from '@/components/AssistantsList';
 interface AssistantsProps { }
 const Assistants: React.FC<AssistantsProps> = () => {
     return (
-        <div className="page-container">
-            <h1>Dashboard Page</h1>
-            {/* 这里可以添加仪表盘内容 */}
-        </div>
+        <>
+            <Splitter>
+                <Splitter.Panel defaultSize="20%" min="20%" max="20%">
+                    <AssistantsList />
+                </Splitter.Panel>
+                <Splitter.Panel>
+                </Splitter.Panel>
+            </Splitter>
+        </>
     );
 }
 

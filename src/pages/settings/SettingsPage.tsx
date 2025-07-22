@@ -74,16 +74,7 @@ const SettingsPage: React.FC = () => {
     }, [location.pathname, navigate]);
 
     return (
-        <div style={{
-            height: 'calc(100vh - var(--titlebar-height) - 5px - 12px - 12px)', // 减去标题栏高度和边距
-            width: '100%',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'row',
-            padding: '16px',
-            boxSizing: 'border-box',
-            margin: 0
-        }}>
+        <div className="page-layout-container">
             <div
                 style={{
                     width: 200,

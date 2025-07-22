@@ -5,6 +5,7 @@ mod settings;
 mod utils;
 use config_manager::{load_app_config, reset_app_config, save_app_config};
 use settings::get_storage_locations;
+use tauri::Manager;
 use utils::open_folder;
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -14,6 +15,12 @@ fn greet(name: &str) -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_single_instance::init(|app, _, _| {
+            let _ = app
+                .get_webview_window("main")
+                .expect("no main window")
+                .set_focus();
+        }))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_clipboard_manager::init())
