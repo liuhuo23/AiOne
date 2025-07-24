@@ -39,6 +39,13 @@ export const applyThemeVariables = (theme: AppState['theme']) => {
         root.style.setProperty(property, value);
     });
 
+    // 应用全局背景变量
+    if (theme.globalBackground) {
+        root.style.setProperty('--global-background', theme.globalBackground);
+    } else {
+        root.style.setProperty('--global-background', 'var(--global-background-gradient-1)');
+    }
+
     // 应用主题模式
     root.style.setProperty('--current-theme', theme.currentMode);
     root.setAttribute('data-theme', theme.currentMode);
@@ -61,6 +68,7 @@ export const resetThemeVariables = () => {
         titleBarHeight: 32,
         mode: 'system' as const,
         currentMode: 'light' as const,
+        globalBackground: 'var(--global-background-gradient-1)',
     };
     applyThemeVariables(defaultTheme);
 };

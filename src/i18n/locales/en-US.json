@@ -108,6 +108,10 @@
         "save_success": "Settings saved successfully",
         "save_failed": "Failed to save settings",
         "reset_success": "Settings reset to default values",
+        "background": {
+            "global": "Global Background",
+            "default": "default"
+        },
         "colors": {
             "fresh_green": "Fresh Green",
             "classic_blue": "Classic Blue",

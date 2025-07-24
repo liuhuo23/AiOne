@@ -7,8 +7,17 @@ import ThemeSettings from '@/components/ThemeSettings';
 const { Option } = Select;
 
 const AppearancePage: React.FC = () => {
-    const { theme, setPrimaryColor, setSiderWidth } = useTheme();
     const { t } = useTranslation();
+    const { theme, setPrimaryColor, setSiderWidth, setGlobalBackground } = useTheme();
+    // 全局背景选项
+    const backgroundOptions = [
+        { label: t('settings.background.default') || '淡雅蓝灰渐变', value: 'var(--global-background-gradient-1)' },
+        { label: t('settings.background.pink_orange') || '粉橙渐变', value: 'var(--global-background-gradient-2)' },
+        { label: t('settings.background.green_blue') || '绿蓝渐变', value: 'var(--global-background-gradient-3)' },
+        { label: t('settings.background.purple') || '紫色渐变', value: 'var(--global-background-gradient-4)' },
+        { label: t('settings.background.dots') || '米黄点缀', value: 'var(--global-background-gradient-5)' },
+        { label: t('settings.background.circle') || '米色圆点', value: 'var(--global-background-gradient-6)' },
+    ];
 
     // 主题色选项
     const themeColors = [
@@ -67,6 +76,37 @@ const AppearancePage: React.FC = () => {
                                                         }}
                                                     />
                                                     {color.label}
+                                                </div>
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </div>
+
+                                <div>
+                                    <Typography.Text strong>{t('settings.background.global') || '全局背景'}</Typography.Text>
+                                    <Select
+                                        value={theme.globalBackground || 'var(--global-background-gradient-1)'}
+                                        onChange={(bg) => {
+                                            setGlobalBackground(bg);
+                                            document.documentElement.style.setProperty('--global-background', bg);
+                                        }}
+                                        style={{ width: '100%', marginTop: 8 }}
+                                        placeholder={t('settings.background.global') || '选择全局背景'}
+                                    >
+                                        {backgroundOptions.map(bg => (
+                                            <Option key={bg.value} value={bg.value}>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <div
+                                                        style={{
+                                                            width: 32,
+                                                            height: 16,
+                                                            borderRadius: 4,
+                                                            background: bg.value,
+                                                            marginRight: 8,
+                                                            border: '1px solid #eee',
+                                                        }}
+                                                    />
+                                                    {bg.label}
                                                 </div>
                                             </Option>
                                         ))}

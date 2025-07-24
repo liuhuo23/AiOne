@@ -21,14 +21,6 @@ type MenuItem = Required<MenuProps>['items'][number] & {
 
 const menuItems: MenuItem[] = [
     {
-        key: '/home',
-        icon: React.createElement(HomeOutlined),
-        label: '首页',
-        translationKey: 'menu.home',
-        position: 'top',
-        idDefault: false, // 设置为默认菜单项
-    },
-    {
         key: "/assent",
         icon: React.createElement(MessageOutlined),
         label: 'AI聊天',

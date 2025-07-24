@@ -44,6 +44,7 @@ export interface AppState {
         titleBarHeight: number;
         mode: ThemeMode;
         currentMode: 'light' | 'dark'; // 当前实际显示的模式（解析后的）
+        globalBackground?: string; // 新增：全局背景
     };
     // 用户设置
     settings: {
@@ -73,6 +74,7 @@ export type AppAction =
     | { type: 'SET_THEME_MODE'; payload: ThemeMode }
     | { type: 'SET_CURRENT_MODE'; payload: 'light' | 'dark' }
     | { type: 'SET_SIDER_WIDTH'; payload: number }
+    | { type: 'SET_GLOBAL_BACKGROUND'; payload: string } // 新增
     | { type: 'SET_LANGUAGE'; payload: 'zh-CN' | 'en-US' }
     | { type: 'SET_AUTO_SAVE'; payload: boolean }
     | { type: 'SET_NOTIFICATIONS'; payload: boolean }
@@ -100,6 +102,7 @@ const initialState: AppState = {
         titleBarHeight: 32,
         mode: 'system',
         currentMode: 'light',
+        globalBackground: 'var(--global-background-gradient-1)',
     },
     settings: {
         language: 'zh-CN',
@@ -175,6 +178,14 @@ function appReducer(state: AppState, action: AppAction): AppState {
                 theme: {
                     ...state.theme,
                     siderWidth: action.payload,
+                },
+            };
+        case 'SET_GLOBAL_BACKGROUND':
+            return {
+                ...state,
+                theme: {
+                    ...state.theme,
+                    globalBackground: action.payload,
                 },
             };
 
@@ -400,12 +411,17 @@ export const useTheme = () => {
         dispatch({ type: 'SET_CURRENT_MODE', payload: mode });
     };
 
+    const setGlobalBackground = (bg: string) => {
+        dispatch({ type: 'SET_GLOBAL_BACKGROUND', payload: bg });
+    };
+
     return {
         theme: state.theme,
         setPrimaryColor,
         setSiderWidth,
         setThemeMode,
         setCurrentMode,
+        setGlobalBackground,
     };
 };
 

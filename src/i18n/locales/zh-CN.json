@@ -114,6 +114,10 @@
             "vibrant_purple": "活力紫色",
             "warm_orange": "温暖橙色",
             "rose_red": "玫瑰红色"
+        },
+        "background": {
+            "global": "全局背景色",
+            "default": "默认"
         }
     },
     "common": {
