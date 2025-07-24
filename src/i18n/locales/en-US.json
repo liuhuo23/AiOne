@@ -1,4 +1,11 @@
 {
+    "assistants": {
+        "model": "Model",
+        "topic": "Topic",
+        "settings": "Settings",
+        "assistants": "Assistants",
+        "add_assistant": "Add Assistant"
+    },
     "app": {
         "title": "AiOne",
         "welcome": "Welcome to AiOne",

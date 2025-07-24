@@ -183,6 +183,13 @@ const TextArea: React.FC<TextAreaProps> = ({
             maxHeight: `${maxRows * 24}px`,
             overflowY: 'auto',
           }}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              if (isLoading || disableSend || tokenCount > maxTokens) return;
+              handleSend();
+            }
+          }}
         />
         {showActionButton && (
           <BottomBar>

@@ -5,6 +5,13 @@
         "description": "这是一个基于 Tauri + React + Ant Design 构建的现代化桌面应用程序。",
         "menu_description": "左侧菜单提供了各种功能模块的快速访问，您可以点击不同的菜单项来探索应用的功能。"
     },
+    "assistants": {
+        "model": "模型",
+        "topic": "话题",
+        "settings": "设置",
+        "add_assistant": "添加对话",
+        "assistants": "助手"
+    },
     "menu": {
         "home": "首页",
         "documents": "文档",

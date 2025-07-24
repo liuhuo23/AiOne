@@ -22,7 +22,7 @@ const ChatContainer = styled.div`
   margin: 0 auto;
   padding: 2px;
   position: relative;
-  background: var(--global-background, linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%));
+  background: var('--ant-color-bg-container');
   transition: background 0.3s;
 `;
 
@@ -55,12 +55,11 @@ const MessageBubble = styled.div<{ isUser: boolean }>`
   max-width: 80%;
   min-width: 48px;
   width: auto;
-  color: #222;
+  color: var('--ant-color-text');
   border: none;
   margin-left: ${props => props.isUser ? 'auto' : '20px'};
   margin-right: ${props => props.isUser ? '20px' : 'auto'};
   word-break: break-word;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 10px 16px;
   border-radius: 6px;
 `;

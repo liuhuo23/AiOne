@@ -7,7 +7,7 @@ const Assistants: React.FC<AssistantsProps> = () => {
     return (
         <>
             <Splitter>
-                <Splitter.Panel defaultSize="20%" min="20%" max="20%">
+                <Splitter.Panel defaultSize="25%" min="25%" max="30%">
                     <AssistantsList />
                 </Splitter.Panel>
                 <Splitter.Panel>
