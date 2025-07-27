@@ -14,9 +14,15 @@ dependencies:
   '@tauri-apps/plugin-clipboard-manager':
     specifier: ^2.3.0
     version: 2.3.0
+  '@tauri-apps/plugin-log':
+    specifier: ~2
+    version: 2.6.0
   '@tauri-apps/plugin-opener':
     specifier: ^2
     version: 2.4.0
+  '@tauri-apps/plugin-polodb':
+    specifier: github:liuhuo23/tauri-plugin-polodb
+    version: github.com/liuhuo23/tauri-plugin-polodb/9c337afae10672808873f3b3cc6583b832ba40dc
   '@tauri-apps/plugin-process':
     specifier: ^2.3.0
     version: 2.3.0
@@ -1129,6 +1135,12 @@ packages:
 
   /@tauri-apps/plugin-clipboard-manager@2.3.0:
     resolution: {integrity: sha512-81NOBA2P+OTY8RLkBwyl9ZR/0CeggLub4F6zxcxUIfFOAqtky7J61+K/MkH2SC1FMxNBxrX0swDuKvkjkHadlA==}
+    dependencies:
+      '@tauri-apps/api': 2.6.0
+    dev: false
+
+  /@tauri-apps/plugin-log@2.6.0:
+    resolution: {integrity: sha512-gVp3l31akA1Jk2bZsTA0hMFD5/gLe49Nw1btu5lViau0QqgC2XyT79LSwvy7a44ewtQbSexchqIg7oTJKMIbXQ==}
     dependencies:
       '@tauri-apps/api': 2.6.0
     dev: false
@@ -3355,4 +3367,12 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
+    dev: false
+
+  github.com/liuhuo23/tauri-plugin-polodb/9c337afae10672808873f3b3cc6583b832ba40dc:
+    resolution: {tarball: https://codeload.github.com/liuhuo23/tauri-plugin-polodb/tar.gz/9c337afae10672808873f3b3cc6583b832ba40dc}
+    name: tauri-plugin-polodb
+    version: 0.0.2
+    dependencies:
+      '@tauri-apps/api': 2.6.0
     dev: false

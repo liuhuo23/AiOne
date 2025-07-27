@@ -12,16 +12,18 @@ import menuItems from "./menus/menu";
 import "./App.css";
 
 
-const { Content } = Layout;
-
+const { Content, Header } = Layout;
 
 
 // 内部布局组件（包含导航逻辑）
-const AppLayout = () => {
+const AppLayoutInner = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   const location = useLocation();
   const { current, setCurrentPage } = useCurrentPage();
   const { theme: appTheme } = useTheme();
-  const { currentTheme } = useThemeManager();
   // 获取当前页面标题
   const getCurrentPageTitle = () => {
     const currentPath = location.pathname === '/' ? '/home' : location.pathname;
@@ -37,6 +39,33 @@ const AppLayout = () => {
     return '首页';
   };
 
+  return (
+    <Layout className="app-layout">
+      {/* 自定义标题栏，无下边框 */}
+      <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} style={{ background: colorBgContainer }} />
+      <Layout>
+        {/* 侧边栏无右边框 */}
+        <AppSider width={appTheme.siderWidth} />
+        <Content
+          className="app-content"
+          style={{
+            position: 'relative',
+            top: '-15px',
+            zIndex: 20,
+          }}
+        >
+          <AppRoutes />
+        </Content>
+      </Layout>
+      {/* 通知中心抽屉 */}
+      <NotificationCenter />
+    </Layout>
+  );
+};
+
+const AppLayout = () => {
+  const { theme: appTheme } = useTheme();
+  const { currentTheme } = useThemeManager();
   // Ant Design 主题配置
   const antdThemeConfig = {
     algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
@@ -44,29 +73,10 @@ const AppLayout = () => {
       colorPrimary: appTheme.primaryColor,
     },
   };
-
   return (
-    <>
-      <ConfigProvider theme={antdThemeConfig} >
-        <ThemeIntegration>
-          <Layout className="app-layout" style={{ minHeight: '100vh' }}>
-            {/* 自定义标题栏 */}
-            <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} />
-
-            <AppSider width={appTheme.siderWidth} />
-
-            <Layout style={{ marginLeft: `var(--content-margin-left)` }}>
-              <Content className="app-content">
-                <AppRoutes />
-              </Content>
-            </Layout>
-
-            {/* 通知中心抽屉 */}
-            <NotificationCenter />
-          </Layout>
-        </ThemeIntegration>
-      </ConfigProvider >
-    </>
+    <ConfigProvider theme={antdThemeConfig}>
+      <AppLayoutInner />
+    </ConfigProvider>
   );
 };
 

@@ -8,7 +8,7 @@ const { Option } = Select;
 
 const AppearancePage: React.FC = () => {
     const { t } = useTranslation();
-    const { theme, setPrimaryColor, setSiderWidth, setGlobalBackground } = useTheme();
+    const { theme, setPrimaryColor, setSiderWidth, } = useTheme();
     // 全局背景选项
     const backgroundOptions = [
         { label: t('settings.background.default') || '淡雅蓝灰渐变', value: 'var(--global-background-gradient-1)' },
@@ -87,7 +87,7 @@ const AppearancePage: React.FC = () => {
                                     <Select
                                         value={theme.globalBackground || 'var(--global-background-gradient-1)'}
                                         onChange={(bg) => {
-                                            setGlobalBackground(bg);
+
                                             document.documentElement.style.setProperty('--global-background', bg);
                                         }}
                                         style={{ width: '100%', marginTop: 8 }}

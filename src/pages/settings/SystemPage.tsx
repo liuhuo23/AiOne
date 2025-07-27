@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Typography, Space, Row, Col, Button, message } from 'antd';
 import { useLoading } from '@/store/AppStateContext';
 import { useOptimizedWindowState } from '@/hooks/useOptimizedWindowState';
-import UpdateManager from '@/components/UpdateManager';
 
 const SystemPage: React.FC = () => {
     const { isMaximized, isDragging } = useOptimizedWindowState();
@@ -26,9 +25,7 @@ const SystemPage: React.FC = () => {
     };
 
     return (
-        <div style={{
-            minHeight: '100%',
-        }}>
+        <div style={{ minHeight: '100%' }}>
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
                 <div>
                     <Typography.Title level={3}>系统信息</Typography.Title>
@@ -36,7 +33,6 @@ const SystemPage: React.FC = () => {
                         查看应用和系统的运行状态信息
                     </Typography.Paragraph>
                 </div>
-
                 <Row gutter={[16, 16]}>
                     <Col xs={24} lg={12}>
                         <Card title="窗口状态">
@@ -47,7 +43,6 @@ const SystemPage: React.FC = () => {
                                         {isMaximized ? '最大化' : '正常大小'}
                                     </Typography.Text>
                                 </div>
-
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography.Text strong>拖拽状态</Typography.Text>
                                     <Typography.Text type={isDragging ? 'warning' : 'secondary'}>
@@ -57,7 +52,6 @@ const SystemPage: React.FC = () => {
                             </Space>
                         </Card>
                     </Col>
-
                     <Col xs={24} lg={12}>
                         <Card title="应用信息">
                             <Space direction="vertical" size="middle" style={{ width: '100%' }}>
@@ -65,12 +59,10 @@ const SystemPage: React.FC = () => {
                                     <Typography.Text strong>应用名称</Typography.Text>
                                     <Typography.Text>AiOne</Typography.Text>
                                 </div>
-
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography.Text strong>版本</Typography.Text>
                                     <Typography.Text>0.1.0</Typography.Text>
                                 </div>
-
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <Typography.Text strong>构建环境</Typography.Text>
                                     <Typography.Text>Tauri + React</Typography.Text>
@@ -78,18 +70,6 @@ const SystemPage: React.FC = () => {
                             </Space>
                         </Card>
                     </Col>
-
-                    <Col xs={24}>
-                        <Card title="应用更新">
-                            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                                <Typography.Paragraph type="secondary">
-                                    检查并安装应用更新
-                                </Typography.Paragraph>
-                                <UpdateManager />
-                            </Space>
-                        </Card>
-                    </Col>
-
                     <Col xs={24}>
                         <Card title="操作">
                             <Space direction="vertical" size="middle" style={{ width: '100%' }}>

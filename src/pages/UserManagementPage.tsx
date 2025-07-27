@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Card, Table, Button, Space, Modal, Form, Input, Select, Tag, message } from 'antd';
 import { EditOutlined, DeleteOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
-
 const { Option } = Select;
-
+import { find_one } from '@tauri-apps/plugin-polodb';
 interface User {
     id: string;
     name: string;

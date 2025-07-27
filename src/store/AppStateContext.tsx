@@ -51,6 +51,8 @@ export interface AppState {
         language: 'zh-CN' | 'en-US';
         autoSave: boolean;
         notifications: boolean;
+        log_level: String,
+        startup_page: String,
     };
     // 当前页面信息
     current: {
@@ -78,6 +80,8 @@ export type AppAction =
     | { type: 'SET_LANGUAGE'; payload: 'zh-CN' | 'en-US' }
     | { type: 'SET_AUTO_SAVE'; payload: boolean }
     | { type: 'SET_NOTIFICATIONS'; payload: boolean }
+    | { type: 'SET_LOG_LEVEL'; payload: string }
+    | { type: 'SET_STARTUP_PAGE'; payload: string }
     | { type: 'SET_CURRENT_PAGE'; payload: { path: string; title: string } }
     | { type: 'SET_LOADING'; payload: { key: string; loading: boolean } }
     | { type: 'SET_GLOBAL_LOADING'; payload: boolean }
@@ -89,6 +93,7 @@ export type AppAction =
     | { type: 'TOGGLE_NOTIFICATION_PANEL' }
     | { type: 'SET_NOTIFICATION_POSITION'; payload: NotificationState['position'] }
     | { type: 'RESET_STATE' };
+
 
 // 初始状态
 const initialState: AppState = {
@@ -102,12 +107,13 @@ const initialState: AppState = {
         titleBarHeight: 32,
         mode: 'system',
         currentMode: 'light',
-        globalBackground: 'var(--global-background-gradient-1)',
     },
     settings: {
         language: 'zh-CN',
         autoSave: true,
         notifications: true,
+        log_level: 'error',
+        startup_page: '/',
     },
     current: {
         path: '/',
@@ -338,6 +344,23 @@ function appReducer(state: AppState, action: AppAction): AppState {
         case 'RESET_STATE':
             return initialState;
 
+        case 'SET_LOG_LEVEL':
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    log_level: action.payload,
+                },
+            };
+
+        case 'SET_STARTUP_PAGE':
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    startup_page: action.payload,
+                },
+            };
         default:
             return state;
     }
@@ -410,18 +433,12 @@ export const useTheme = () => {
     const setCurrentMode = (mode: 'light' | 'dark') => {
         dispatch({ type: 'SET_CURRENT_MODE', payload: mode });
     };
-
-    const setGlobalBackground = (bg: string) => {
-        dispatch({ type: 'SET_GLOBAL_BACKGROUND', payload: bg });
-    };
-
     return {
         theme: state.theme,
         setPrimaryColor,
         setSiderWidth,
         setThemeMode,
         setCurrentMode,
-        setGlobalBackground,
     };
 };
 

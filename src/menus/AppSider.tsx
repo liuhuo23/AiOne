@@ -7,7 +7,6 @@ import { useThemeManager } from "../hooks/useThemeManager";
 import { useTranslation } from "../hooks/useTranslation";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import menuItems from "./menu";
-
 const { Sider } = Layout;
 const { Title } = Typography;
 
@@ -108,18 +107,12 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
 
     return (
         <Sider
-            className="app-sider"
             width={siderWidth}
-            style={{
-                position: 'fixed',
-                left: 0,
-                zIndex: 999,
-                overflow: 'visible', // 确保Badge可见
-            }}
             theme={currentTheme}
+
         >
             <div className="app-logo">
-                <Title level={3} style={{ fontSize: '16px', margin: 0 }}>AI</Title>
+                <Title level={3}>AI</Title>
             </div>
 
             <div className="menu-container" style={{ overflow: 'visible' }}>
@@ -144,17 +137,6 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
                     inlineCollapsed={false}
                     style={{ overflow: 'visible' }}
                 />
-
-                {/* 语言切换器 */}
-                <div style={{
-                    padding: '8px 12px',
-                    borderTop: '1px solid var(--border-color)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    overflow: 'hidden'
-                }}>
-                    <LanguageSwitcher />
-                </div>
             </div>
         </Sider>
     );

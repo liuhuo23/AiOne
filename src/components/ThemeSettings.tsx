@@ -46,15 +46,6 @@ const ThemeSettings: React.FC = () => {
     return (
         <Card title="主题设置">
             <Space direction="vertical" style={{ width: '100%' }}>
-                <div>
-                    <Title level={5}>主题模式</Title>
-                    <Text type="secondary">
-                        选择您喜欢的主题模式，或设置为跟随系统自动切换
-                    </Text>
-                </div>
-
-                <Divider />
-
                 <Radio.Group
                     value={themeMode}
                     onChange={handleModeChange}

@@ -125,7 +125,9 @@
             "vibrant_purple": "Vibrant Purple",
             "warm_orange": "Warm Orange",
             "rose_red": "Rose Red"
-        }
+        },
+        "log_level": "Log Level",
+        "startup_page": "Startup Page"
     },
     "common": {
         "confirm": "Confirm",

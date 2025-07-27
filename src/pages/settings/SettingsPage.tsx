@@ -11,6 +11,7 @@ import AppearancePage from './AppearancePage';
 import GeneralPage from './GeneralPage';
 import StoragePage from './StoragePage';
 import SystemPage from './SystemPage';
+import UpdatePage from './UpdatePage';
 
 const SettingsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -50,6 +51,12 @@ const SettingsPage: React.FC = () => {
             icon: <InfoCircleOutlined />,
             label: '系统信息',
             onClick: () => navigate('/settings/system')
+        },
+        {
+            key: 'update',
+            icon: <InfoCircleOutlined />,
+            label: '应用更新',
+            onClick: () => navigate('/settings/update')
         }
     ];
 
@@ -78,7 +85,6 @@ const SettingsPage: React.FC = () => {
             <div
                 style={{
                     width: 200,
-                    background: 'var(--ant-color-bg-container)',
                     borderRadius: '8px',
                     marginRight: '16px',
                     height: '100%',
@@ -123,6 +129,7 @@ const SettingsPage: React.FC = () => {
                     <Route path="/storage" element={<StoragePage />} />
                     <Route path="/system" element={<SystemPage />} />
                     <Route path="/appearance" element={<AppearancePage />} />
+                    <Route path="/update" element={<UpdatePage />} />
                 </Routes>
             </div>
         </div>

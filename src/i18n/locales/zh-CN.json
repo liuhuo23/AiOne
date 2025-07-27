@@ -125,7 +125,9 @@
         "background": {
             "global": "全局背景色",
             "default": "默认"
-        }
+        },
+        "log_level": "日志级别",
+        "startup_page": "首页"
     },
     "common": {
         "confirm": "确认",

@@ -1,20 +1,21 @@
 import React from 'react';
-import { Typography, Tooltip } from 'antd';
+import { Typography, theme } from 'antd';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useOptimizedWindowState } from '@/hooks/useOptimizedWindowState';
-
+import { Layout } from 'antd';
+const { Header } = Layout;
 const { Title } = Typography;
 
 interface CustomTitleBarProps {
     title: string;
+    style?: React.CSSProperties; // 可选的样式属性
 }
 
-const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title }) => {
-    const { isMaximized, isDragging, setDragging, toggleMaximize } = useOptimizedWindowState();
+const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title, style }) => {
+    const { setDragging, toggleMaximize } = useOptimizedWindowState()
 
-    // 开始拖拽窗口
+    // 拖拽窗口
     const handleMouseDown = async (e: React.MouseEvent) => {
-        // 只在左键点击时触发拖拽
         if (e.button === 0) {
             setDragging(true);
             try {
@@ -28,34 +29,32 @@ const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title }) => {
         }
     };
 
-    // 双击切换最大化/恢复
-    const handleDoubleClick = async () => {
+    // 双击最大化/恢复
+    const handleDoubleClick = async (e: React.MouseEvent) => {
         await toggleMaximize();
     };
 
-    const titleBarClass = `custom-titlebar ${isMaximized ? 'titlebar-maximized' : ''}`;
-    const dragRegionClass = `titlebar-drag-region ${isDragging ? 'titlebar-dragging' : ''}`;
+    // 获取 antd token
+    const {
+        token: { colorText },
+    } = theme.useToken();
 
     return (
-        <div className={titleBarClass}>
-            <Tooltip
-                title="拖拽移动窗口，双击切换全屏"
-                placement="bottom"
-                mouseEnterDelay={1}
-            >
-                <div
-                    className={dragRegionClass}
-                    onMouseDown={handleMouseDown}
-                    onDoubleClick={handleDoubleClick}
-                >
-                    <div className="titlebar-content">
-                        <Title level={5} className="titlebar-title">
-                            {title} {isMaximized && '(最大化)'}
-                        </Title>
-                    </div>
-                </div>
-            </Tooltip>
-        </div>
+        <Header
+            style={{
+                ...style,
+                color: colorText,
+                lineHeight: '40px',
+                height: '50px',
+                textAlign: 'left',
+                padding: 0,
+                paddingLeft: '80px', // 添加左侧内边距
+            }}
+            onMouseDown={handleMouseDown}
+            onDoubleClick={handleDoubleClick}
+        >
+            {title}
+        </Header>
     );
 };
 

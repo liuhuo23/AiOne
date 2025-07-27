@@ -23,7 +23,9 @@ serde_json = "1.0.141"
 tauri = {version = "2.7.0", features = ["config-json5"] }
 tauri-plugin-clipboard-manager = "2"
 tauri-plugin-fs = "2"
+tauri-plugin-log = "2"
 tauri-plugin-opener = "2"
+tauri-plugin-polodb = {git = "https://github.com/liuhuo23/tauri-plugin-polodb.git"}
 tauri-plugin-process = "2"
 tauri-plugin-updater = "2"
 
