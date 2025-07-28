@@ -5,6 +5,7 @@ import AssistantItems from './assistantlist/AssistantItems';
 import TopicList from './assistantlist/TopicList';
 import Settings from './assistantlist/Setting';
 import { AssistantType, getDefaultAssistant } from '@/store/assistant';
+import { Tabs } from 'antd';
 
 const assistantsMock: AssistantType[] = [
     {
@@ -64,7 +65,7 @@ const AssistantsList: React.FC<AssistantsListProps> = ({ onChange }) => {
         {
             key: 'assistants',
             label: t('assistants.assistants'),
-            content: <AssistantItems
+            children: <AssistantItems
                 assistants={assistants}
                 onAssistantChange={(item: AssistantType) => setAssistant(item)}
             />,
@@ -72,78 +73,22 @@ const AssistantsList: React.FC<AssistantsListProps> = ({ onChange }) => {
         {
             key: 'chats',
             label: t('assistants.topic'),
-            content: <TopicList assistant={assistant} />,
+            children: <TopicList assistant={assistant} />,
         },
         {
             key: 'settings',
             label: t('assistants.settings'),
-            content: <Settings />,
+            children: <Settings />,
         },
     ];
     const ListContainer = styled.div`
-        width: 100%;
-        height: 100%;
-        background: var(--ant-color-bg-container);
         margin: 0 auto;
-        display: flex;
-        flex-direction: column;
         padding: 2px;
     `;
 
-    const TabsNav = styled.div`
-        display: flex;
-        width: 100%;
-        height: 48px;
-        background: transparent;
-        border-bottom: 1px solid #eee;
-    `;
-    const TabButton = styled.button<{ active?: boolean }>`
-        flex: 1 1 0;
-        height: 100%;
-        background: var(--ant-color-bg-container);
-        color: ${({ active }) => active ? 'var(--ant-color-primary, #1890ff)' : 'var(--ant-color-text)'};
-        border: none;
-        border-bottom: ${({ active }) => active ? '2px solid #1890ff' : '2px solid transparent'};
-        font-size: 16px;
-        cursor: pointer;
-        outline: none;
-        transition: background 0.2s, color 0.2s;
-    `;
-    const TabContent = styled.div`
-        flex: 1;
-        width: 100%;
-        height: calc(100% - 48px);
-        overflow: auto;
-        background: transparent;
-    `;
-
-
-
-    const [activeKey, setActiveKey] = React.useState(tabList[0].key);
-
-    const handleTabChange = (key: string) => {
-        setActiveKey(key);
-        if (onChange) {
-            onChange(key);
-        }
-    };
-
     return (
         <ListContainer>
-            <TabsNav>
-                {tabList.map(tab => (
-                    <TabButton
-                        key={tab.key}
-                        active={activeKey === tab.key}
-                        onClick={() => handleTabChange(tab.key)}
-                    >
-                        {tab.label}
-                    </TabButton>
-                ))}
-            </TabsNav>
-            <TabContent>
-                {tabList.find(tab => tab.key === activeKey)?.content}
-            </TabContent>
+            <Tabs defaultActiveKey="assistants" items={tabList} onChange={onChange} />
         </ListContainer>
     );
 };

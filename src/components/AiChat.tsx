@@ -17,12 +17,9 @@ interface Message {
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%; 
   margin: 0 auto;
   padding: 2px;
-  position: relative;
-  background: var('--ant-color-bg-container');
   transition: background 0.3s;
 `;
 
@@ -31,7 +28,6 @@ const ChatMain = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
-  height: 100%;
 `;
 
 const MessagesContainer = styled.div`

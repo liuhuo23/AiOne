@@ -10,8 +10,6 @@ import Assistants from "../pages/Assistants";
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<Assistants />} />
-            {/* <Route path="/home" element={<HomePage />} /> */}
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/user" element={<UserManagementPage />} />
             <Route path="/documents" element={<DocumentsPage />} />

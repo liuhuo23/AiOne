@@ -1,11 +1,9 @@
 import React from 'react';
-import { Typography, theme } from 'antd';
+import { theme } from 'antd';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useOptimizedWindowState } from '@/hooks/useOptimizedWindowState';
 import { Layout } from 'antd';
 const { Header } = Layout;
-const { Title } = Typography;
-
 interface CustomTitleBarProps {
     title: string;
     style?: React.CSSProperties; // 可选的样式属性
@@ -44,8 +42,8 @@ const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title, style }) => {
             style={{
                 ...style,
                 color: colorText,
-                lineHeight: '40px',
-                height: '50px',
+                lineHeight: 'calc(var(--header-height) - 2px)',
+                height: 'var(--header-height)',
                 textAlign: 'left',
                 padding: 0,
                 paddingLeft: '80px', // 添加左侧内边距
@@ -54,7 +52,7 @@ const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title, style }) => {
             onDoubleClick={handleDoubleClick}
         >
             {title}
-        </Header>
+        </Header >
     );
 };
 

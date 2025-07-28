@@ -65,7 +65,7 @@ const DashboardPage: React.FC<DashboardProps> = () => {
     ];
 
     return (
-        <div className="page-container">
+        <div className="page-layout-container">
             {/* 统计卡片 */}
             <Row gutter={[16, 16]} style={{ marginBottom: '24px' }}>
                 {statistics.map((stat, index) => (

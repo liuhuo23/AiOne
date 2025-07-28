@@ -7,14 +7,14 @@
     /* 侧边栏宽度 */
     --sider-width: 60px;
     /* 标题栏高度 */
-    --header-height: 64px;
+    --header-height: 45px;
     /* log高度 */
     --logo-height: 60px;
 
     /* 计算变量 */
     --content-margin-left: var(--sider-width);
-    --content-height: calc(100vh - var(--titlebar-height));
-    --menu-container-height: calc(100vh - var(--titlebar-height) - var(--logo-height));
+    --content-height: calc(100vh - var(--header-height) + 20px);
+    --menu-container-height: calc(100vh - var(--header-height) - var(--logo-height));
 
 }
 
@@ -51,10 +51,9 @@ body {
 }
 
 .app-content {
-    border-radius: 12px 12px 12px 12px !important;
     box-shadow: var(--shadow-3) !important;
     overflow: auto;
-    min-height: var(--content-height);
+    min-height: 100%;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -104,12 +103,14 @@ body {
 /* 设置页面布局容器 */
 .page-layout-container {
     height: 100%;
-    /* 减去标题栏高度和边距 */
     width: 100%;
     overflow: hidden;
-    display: flex;
-    flex-direction: row;
     padding: 16px;
     box-sizing: border-box;
     margin: 0;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: row;
 }

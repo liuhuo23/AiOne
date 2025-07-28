@@ -1,4 +1,4 @@
-import { Layout, ConfigProvider, theme } from "antd";
+import { Layout, ConfigProvider, theme, Card } from "antd";
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AppRoutes from "./components/AppRoutes";
 import AppSider from "./menus/AppSider";
@@ -7,12 +7,11 @@ import NotificationCenter from "./components/NotificationCenter";
 import AppStateProvider from "./store/AppStateProvider";
 import { useCurrentPage, useTheme } from "./store/AppStateContext";
 import { useThemeManager } from "./hooks/useThemeManager";
-import ThemeIntegration from "./components/ThemeIntegration";
 import menuItems from "./menus/menu";
 import "./App.css";
 
 
-const { Content, Header } = Layout;
+const { Content, } = Layout;
 
 
 // 内部布局组件（包含导航逻辑）
@@ -41,21 +40,23 @@ const AppLayoutInner = () => {
 
   return (
     <Layout className="app-layout">
-      {/* 自定义标题栏，无下边框 */}
-      <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} style={{ background: colorBgContainer }} />
+      {/* 侧边栏无右边框 */}
+      <AppSider width={appTheme.siderWidth} />
       <Layout>
-        {/* 侧边栏无右边框 */}
-        <AppSider width={appTheme.siderWidth} />
-        <Content
+        {/* 自定义标题栏，无下边框 */}
+        <CustomTitleBar title={`AiOne - ${getCurrentPageTitle()}`} style={{ background: colorBgContainer }} />
+        <Card
           className="app-content"
           style={{
             position: 'relative',
-            top: '-15px',
-            zIndex: 20,
+            top: '-3px',
+            zIndex: 300,
+            borderRadius: '12px',
+            left: '-2px',
           }}
         >
           <AppRoutes />
-        </Content>
+        </Card>
       </Layout>
       {/* 通知中心抽屉 */}
       <NotificationCenter />
@@ -71,6 +72,12 @@ const AppLayout = () => {
     algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
     token: {
       colorPrimary: appTheme.primaryColor,
+      Component: {
+        Menu: {
+          isconOnly: true, // 仅显示图标
+          collapsedIconSize: 24, // 图标大小
+        }
+      }
     },
   };
   return (

@@ -124,7 +124,7 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
                     onClick={handleMenuClick}
                     items={topMenuItems}
                     inlineCollapsed={false}
-                    style={{ overflow: 'visible' }}
+                    style={{ overflow: 'visible', fontSize: 24 }}
                 />
 
                 <Menu
@@ -135,7 +135,7 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
                     onClick={handleMenuClick}
                     items={bottomMenuItems}
                     inlineCollapsed={false}
-                    style={{ overflow: 'visible' }}
+                    style={{ overflow: 'visible', fontSize: 24 }}
                 />
             </div>
         </Sider>
