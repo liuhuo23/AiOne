@@ -21,6 +21,8 @@
 /* 全局重置 */
 * {
     box-sizing: border-box;
+    /* 优化滚动性能 */
+    -webkit-overflow-scrolling: touch;
 }
 
 html {
@@ -51,10 +53,14 @@ body {
 }
 
 .app-content {
-    box-shadow: var(--shadow-3) !important;
     overflow: auto;
     min-height: 100%;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.app-content .ant-card-body {
+    padding: 10px !important;
+    min-height: 100% !important;
 }
 
 /* Logo 区域 */
@@ -67,7 +73,9 @@ body {
     position: relative;
 }
 
-
+.page-container {
+    height: calc(100vh - var(--header-height) - 20px);
+}
 
 .menu-container {
     display: flex;
@@ -113,4 +121,73 @@ body {
 .settings-container {
     display: flex;
     flex-direction: row;
+    overflow-y: auto;
+    /* 优化滚动性能 */
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+/* 自定义滚动条样式 - WebKit浏览器 */
+.settings-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.settings-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* 全局滚动条优化 */
+* {
+    box-sizing: border-box;
+    /* 优化滚动性能 */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 为所有滚动容器添加平滑滚动 */
+.ant-layout-content,
+.app-content,
+.app-menu-top,
+.page-container {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+/* 统一滚动条样式 */
+.ant-layout-content::-webkit-scrollbar,
+.app-content::-webkit-scrollbar,
+.app-menu-top::-webkit-scrollbar,
+.page-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.ant-layout-content::-webkit-scrollbar-track,
+.app-content::-webkit-scrollbar-track,
+.app-menu-top::-webkit-scrollbar-track,
+.page-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.ant-layout-content::-webkit-scrollbar-thumb,
+.app-content::-webkit-scrollbar-thumb,
+.app-menu-top::-webkit-scrollbar-thumb,
+.page-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.ant-layout-content::-webkit-scrollbar-thumb:hover,
+.app-content::-webkit-scrollbar-thumb:hover,
+.app-menu-top::-webkit-scrollbar-thumb:hover,
+.page-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
 }

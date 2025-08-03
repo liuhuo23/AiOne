@@ -5,7 +5,7 @@ import AssistantItems from './assistantlist/AssistantItems';
 import TopicList from './assistantlist/TopicList';
 import Settings from './assistantlist/Setting';
 import { AssistantType, getDefaultAssistant } from '@/store/assistant';
-import { Tabs } from 'antd';
+import { List, Tabs } from 'antd';
 
 const assistantsMock: AssistantType[] = [
     {
@@ -81,11 +81,10 @@ const AssistantsList: React.FC<AssistantsListProps> = ({ onChange }) => {
             children: <Settings />,
         },
     ];
-    const ListContainer = styled.div`
-        margin: 0 auto;
-        padding: 2px;
-    `;
 
+    const ListContainer = styled.div`
+        min-height: 100%;
+    `;
     return (
         <ListContainer>
             <Tabs defaultActiveKey="assistants" items={tabList} onChange={onChange} />

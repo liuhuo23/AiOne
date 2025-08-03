@@ -2,7 +2,6 @@
 import React from "react";
 import type { MenuProps } from "antd";
 import {
-    HomeOutlined,
     SettingOutlined,
     UserOutlined,
     FileTextOutlined,
@@ -24,7 +23,7 @@ const menuItems: MenuItem[] = [
         key: "/assent",
         icon: React.createElement(MessageOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.ai_chat',
         position: 'top',
         idDefault: true, // 设置为默认菜单项
     },
@@ -32,49 +31,49 @@ const menuItems: MenuItem[] = [
         key: '/dashboard',
         icon: React.createElement(DashboardOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.dashboard',
         position: 'top',
     },
     {
         key: '/user',
         icon: React.createElement(UserOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.user_management',
         position: 'top',
     },
     {
         key: '/documents',
         icon: React.createElement(FileTextOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.documents',
         position: 'top',
     },
     {
         key: '/database',
         icon: React.createElement(DatabaseOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.database',
         position: 'top',
     },
     {
         key: '/notifications',
         icon: React.createElement(BellOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.notifications',
         position: 'bottom',
     },
     {
         key: 'theme-toggle',
         icon: React.createElement(DesktopOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'theme.toggle',
         position: 'bottom',
     },
     {
         key: '/settings',
         icon: React.createElement(SettingOutlined),
         label: '',
-        translationKey: '',
+        translationKey: 'menu.settings',
         position: 'bottom',
     },
 ];

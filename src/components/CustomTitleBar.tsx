@@ -46,7 +46,7 @@ const CustomTitleBar: React.FC<CustomTitleBarProps> = ({ title, style }) => {
                 height: 'var(--header-height)',
                 textAlign: 'left',
                 padding: 0,
-                paddingLeft: '80px', // 添加左侧内边距
+                paddingLeft: '12px', // 添加左侧内边距
             }}
             onMouseDown={handleMouseDown}
             onDoubleClick={handleDoubleClick}

@@ -1,250 +1,246 @@
-import React, { useState, useRef, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Avatar, Space, Typography, Card, Spin, Empty } from 'antd';
-import { RobotOutlined, UserOutlined } from '@ant-design/icons';
-import TextArea from './TextArea';
-import styled from 'styled-components';
+import { Card, Layout, List, Input, Button, Space, Divider, Typography, message, Spin } from "antd";
+import React, { useState, useRef, useEffect } from "react";
+import AssistantMessage from "./chats/AssistantMessage";
+import AISettingsModal from "./AISettingsModal";
+import { SendOutlined, ClearOutlined, SettingOutlined, StopOutlined } from '@ant-design/icons';
+import { aiChatService, ChatResponse } from "../services/aiChatService";
+import { aiConfigManager } from "../services/aiConfigManager";
+import type { ChatMessage } from "../services/openaiService";
 
-const { Text } = Typography;
+import "./AiChat.css";
 
-interface Message {
-  id: string;
-  role: 'user' | 'ai';
-  content: string;
-  timestamp: Date;
-}
-
-const ChatContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%; 
-  margin: 0 auto;
-  padding: 2px;
-  transition: background 0.3s;
-`;
-
-const ChatMain = styled.div`
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-`;
-
-const MessagesContainer = styled.div`
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 20px;
-  margin-bottom: 0;
-`;
-
-const MessageItem = styled.div<{ isUser: boolean }>`
-  display: flex;
-  margin-bottom: 20px;
-  justify-content: ${props => props.isUser ? 'flex-end' : 'flex-start'};
-  align-items: flex-end;
-  gap: 8px;
-`;
-
-const MessageBubble = styled.div<{ isUser: boolean }>`
-  display: inline-block;
-  max-width: 80%;
-  min-width: 48px;
-  width: auto;
-  color: var('--ant-color-text');
-  border: none;
-  margin-left: ${props => props.isUser ? 'auto' : '20px'};
-  margin-right: ${props => props.isUser ? '20px' : 'auto'};
-  word-break: break-word;
-  padding: 10px 16px;
-  border-radius: 6px;
-`;
-
-const MessageContent = styled.div<{ isUser?: boolean }>`
-  font-size: 15px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  word-break: break-word;
-  padding: 0;
-  background: none;
-  text-align: ${props => props.isUser ? 'right' : 'left'};
-`;
-
-const MessageTime = styled(Text)`
-  display: block;
-  font-size: 12px;
-  margin-top: 4px;
-  opacity: 0.7;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: flex-end;
-  width: 100%;
-  justify-content: center;
-  background: transparent;
-  flex-shrink: 0;
-  padding-bottom: 8px;
-`;
-
-
-
-// 用于包裹消息气泡的自定义容器
-const BubbleWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-`;
-
-interface MessageViewProps {
-  message: Message;
-  formatTime: (date: Date) => string;
-}
-
-const MessageView: React.FC<MessageViewProps> = ({ message, formatTime }) => {
-  return (
-    <MessageItem isUser={message.role === 'user'}>
-      {/* AI 头像 */}
-      {message.role === 'ai' && (
-        <Avatar icon={<RobotOutlined />} />
-      )}
-      {/* 消息气泡 */}
-      <BubbleWrapper>
-        <MessageBubble isUser={message.role === 'user'}>
-          <MessageContent isUser={message.role === 'user'}>
-            <ReactMarkdown>{message.content}</ReactMarkdown>
-          </MessageContent>
-          <MessageTime type="secondary">
-            {formatTime(message.timestamp)}
-          </MessageTime>
-        </MessageBubble>
-      </BubbleWrapper>
-      {/* 用户头像 */}
-      {message.role === 'user' && (
-        <Avatar
-          icon={<UserOutlined />}
-          style={{ backgroundColor: '#1890ff', boxShadow: '0 2px 8px rgba(24,144,255,0.15)' }}
-        />
-      )}
-    </MessageItem>
-  );
-};
+const { Title } = Typography;
 
 const AiChat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      role: "system",
+      content: "You are a helpful assistant. You can answer questions about the world, provide information, and assist with various tasks."
+    }
+  ]);
 
-  // 滚动到最新消息
+  // 自动滚动到底部
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // 使用 setTimeout 确保 DOM 更新完成后再滚动
+    setTimeout(() => {
+      if (messagesContainerRef.current) {
+        // 直接滚动容器到底部
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      } else if (messagesEndRef.current) {
+        // 备用方案
+        messagesEndRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "nearest"
+        });
+      }
+    }, 100);
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  const generateMessageId = () => {
-    return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-  };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('zh-CN', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+  // 检查是否已配置 AI
+  const isConfigured = aiConfigManager.isConfigured();
 
   const handleSendMessage = async () => {
-    const trimmedText = inputText.trim();
-    if (!trimmedText) return;
+    if (!inputValue.trim()) return;
 
-    // 添加用户消息
-    const userMessage: Message = {
-      id: generateMessageId(),
-      role: 'user',
-      content: trimmedText,
-      timestamp: new Date()
+    if (!isConfigured) {
+      message.warning('请先配置 AI 设置');
+      setShowSettings(true);
+      return;
+    }
+
+    const userMessage: ChatMessage = {
+      role: "user",
+      content: inputValue.trim()
     };
 
+    // 添加用户消息
     setMessages(prev => [...prev, userMessage]);
-    setInputText('');
+    setInputValue('');
     setIsLoading(true);
 
     try {
-      // 模拟AI响应（这里可以替换为实际的API调用）
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 准备发送给 AI 的消息（包括历史对话）
+      const allMessages = [...messages, userMessage];
 
-      const aiMessage: Message = {
-        id: generateMessageId(),
-        role: 'ai',
-        content: `这是AI对您的问题"${trimmedText}"的回复。我能够理解您的需求，并提供相应的帮助。如果您还有其他问题，请随时提问！`,
-        timestamp: new Date()
+      // 调用 AI 服务
+      const response: ChatResponse = await aiChatService.sendMessage(allMessages);
+
+      if (response.isError) {
+        message.error(response.errorMessage || 'AI 响应错误');
+        return;
+      }
+
+      // 添加 AI 响应
+      const assistantMessage: ChatMessage = {
+        role: "assistant",
+        content: response.content
       };
 
-      setMessages(prev => [...prev, aiMessage]);
-    } catch (error) {
-      console.error('发送消息失败:', error);
-      const errorMessage: Message = {
-        id: generateMessageId(),
-        role: 'ai',
-        content: '抱歉，我遇到了一些问题。请稍后重试。',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error: any) {
+      console.error('Chat error:', error);
+      message.error('发送消息失败: ' + (error.message || '未知错误'));
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleClearMessages = () => {
+    setMessages(messages.filter(m => m.role === 'system'));
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleStopGeneration = () => {
+    aiChatService.cancelRequest();
+    setIsLoading(false);
+  };
+
+  const handleConfigUpdated = () => {
+    message.success('AI 配置已更新');
+  };
+
+  const visibleMessages = messages.filter(m => m.role !== 'system');
   return (
-    <ChatContainer>
-      <ChatMain>
-        <MessagesContainer>
-          {messages.length === 0 ? (
-            <Empty
-              description="还没有消息，开始聊天吧！"
-              style={{ marginTop: '100px' }}
-            />
-          ) : (
-            messages.map((message) => (
-              <MessageView key={message.id} message={message} formatTime={formatTime} />
-            ))
-          )}
-          {isLoading && (
-            <MessageItem isUser={false}>
+    <>
+      <Layout className="ai-chat-full-layout">
+        <div className="ai-chat-flex-container" >
+          {/* 消息头部 */}
+          <div style={{ padding: '16px 16px 0 16px' }}>
+            <Space split={<Divider type="vertical" />} style={{ width: '100%', justifyContent: 'space-between' }}>
+              <Title level={4} style={{ margin: 0 }}>
+                AI 助手对话
+                {!isConfigured && (
+                  <Button
+                    type="link"
+                    size="small"
+                    onClick={() => setShowSettings(true)}
+                    style={{ padding: '0 4px', color: '#ff4d4f' }}
+                  >
+                    (未配置)
+                  </Button>
+                )}
+              </Title>
               <Space>
-                <Avatar icon={<RobotOutlined />} style={{ backgroundColor: '#722ed1' }} />
-                <Spin />
+                <Button
+                  type="text"
+                  icon={<SettingOutlined />}
+                  onClick={() => setShowSettings(true)}
+                  size="small"
+                >
+                  设置
+                </Button>
+                <Button
+                  type="text"
+                  icon={<ClearOutlined />}
+                  onClick={handleClearMessages}
+                  size="small"
+                  disabled={visibleMessages.length === 0}
+                >
+                  清空对话
+                </Button>
               </Space>
-            </MessageItem>
-          )}
-          <div ref={messagesEndRef} />
-        </MessagesContainer>
-        <InputContainer>
-          <TextArea
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onValueChange={setInputText}
-            onSend={handleSendMessage}
-            onCancel={() => {
-              setIsLoading(false);
-              setInputText('');
-            }}
-            placeholder="输入消息..."
-            rows={2}
-            maxLength={1000}
-            showActionButton
-            disableSend={!inputText.trim()}
-            isLoading={isLoading}
-          />
-        </InputContainer>
-      </ChatMain>
-    </ChatContainer>
+            </Space>
+          </div>
+
+          {/* 消息列表 */}
+          <div className="ai-chat-messages-flex" ref={messagesContainerRef}>
+            <List
+              dataSource={visibleMessages}
+              renderItem={(msg, idx) => (
+                <List.Item style={{ border: 'none', padding: '8px 0' }}>
+                  <AssistantMessage
+                    key={idx}
+                    content={msg.content}
+                    isUserMessage={msg.role === 'user'}
+                  />
+                </List.Item>
+              )}
+              locale={{
+                emptyText: isConfigured
+                  ? '开始新的对话...'
+                  : '请先点击"设置"配置 AI 服务'
+              }}
+            />
+            {/* 加载提示 */}
+            {isLoading && (
+              <div style={{ textAlign: 'center', padding: '16px' }}>
+                <Space>
+                  <Spin size="small" />
+                  <span>AI 正在思考中...</span>
+                </Space>
+              </div>
+            )}
+            {/* 自动滚动锚点 - 放在消息列表底部 */}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* 输入区域 */}
+          <div className="ai-chat-input-flex">
+            <Card style={{ width: '100%' }}>
+              <Space.Compact style={{ width: '100%' }}>
+                <Input.TextArea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder={
+                    isConfigured
+                      ? "在这里输入您的消息... (按 Enter 发送，Shift+Enter 换行)"
+                      : "请先配置 AI 设置"
+                  }
+                  autoSize={{ minRows: 2, maxRows: 6 }}
+                  style={{ resize: 'none' }}
+                  disabled={!isConfigured || isLoading}
+                />
+                {isLoading ? (
+                  <Button
+                    danger
+                    icon={<StopOutlined />}
+                    onClick={handleStopGeneration}
+                    style={{ alignSelf: 'flex-end' }}
+                  >
+                    停止
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    icon={<SendOutlined />}
+                    onClick={handleSendMessage}
+                    disabled={!inputValue.trim() || !isConfigured}
+                    style={{ alignSelf: 'flex-end' }}
+                  >
+                    发送
+                  </Button>
+                )}
+              </Space.Compact>
+            </Card>
+          </div>
+        </div>
+      </Layout>
+
+      {/* AI 设置弹窗 */}
+      <AISettingsModal
+        visible={showSettings}
+        onClose={() => setShowSettings(false)}
+        onConfigUpdated={handleConfigUpdated}
+      />
+    </>
   );
-};
+}
 
 export default AiChat;

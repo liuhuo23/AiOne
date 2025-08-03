@@ -5,7 +5,7 @@ import { MoonOutlined, SunOutlined, DesktopOutlined, BellOutlined } from "@ant-d
 import { useTheme, useNotifications } from "../store/AppStateContext";
 import { useThemeManager } from "../hooks/useThemeManager";
 import { useTranslation } from "../hooks/useTranslation";
-import LanguageSwitcher from "../components/LanguageSwitcher";
+// import LanguageSwitcher from "../components/LanguageSwitcher";
 import menuItems from "./menu";
 const { Sider } = Layout;
 const { Title } = Typography;
@@ -124,7 +124,7 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
                     onClick={handleMenuClick}
                     items={topMenuItems}
                     inlineCollapsed={false}
-                    style={{ overflow: 'visible', fontSize: 24 }}
+                    style={{ overflow: 'visible', fontSize: 64 }}
                 />
 
                 <Menu
@@ -135,7 +135,7 @@ const AppSider: React.FC<AppSiderProps> = ({ width }) => {
                     onClick={handleMenuClick}
                     items={bottomMenuItems}
                     inlineCollapsed={false}
-                    style={{ overflow: 'visible', fontSize: 24 }}
+                    style={{ overflow: 'visible', fontSize: 64 }}
                 />
             </div>
         </Sider>

@@ -1,0 +1,112 @@
+/* 消息容器 */
+.message-container {
+    display: flex;
+    margin-bottom: 16px;
+    gap: 8px;
+}
+
+.user-message-container {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    margin-left: auto;
+    max-width: 70%;
+}
+
+.ai-message-container {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-right: auto;
+    max-width: 70%;
+}
+
+/* 头像样式 */
+.message-avatar {
+    margin-top: 4px;
+}
+
+/* 消息卡片 */
+.assistant-message-card {
+    box-shadow: none;
+    max-width: calc(100% - 40px);
+    flex: 1;
+    background-color: var(--ant-color-bg-container);
+    border: 1px solid var(--ant-color-border);
+    transition: all 0.3s ease;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.assistant-message-card.user-message {
+    background-color: var(--ant-color-primary-bg);
+    border: 1px solid var(--ant-color-primary-border);
+    border-right: 3px solid var(--ant-color-primary);
+    text-align: right;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+}
+
+.assistant-message-card.user-message .ant-card-body {
+    color: var(--ant-color-text);
+    padding: 12px 16px;
+    text-align: right;
+}
+
+.assistant-message-card.user-message * {
+    text-align: right;
+}
+
+.assistant-message-card:not(.user-message) {
+    background-color: var(--ant-color-bg-layout);
+    border: 1px solid var(--ant-color-border);
+    border-left: 3px solid var(--ant-color-success);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* 消息内容样式 */
+.assistant-message-card .ant-card-body {
+    color: var(--ant-color-text);
+    padding: 12px 16px;
+}
+
+.assistant-message-card.user-message .ant-card-body {
+    color: var(--ant-color-text);
+}
+
+/* Markdown 内容样式 */
+.assistant-message-card h1,
+.assistant-message-card h2,
+.assistant-message-card h3,
+.assistant-message-card h4,
+.assistant-message-card h5,
+.assistant-message-card h6 {
+    color: var(--ant-color-text-heading);
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.assistant-message-card p {
+    color: var(--ant-color-text);
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.assistant-message-card code {
+    background-color: var(--ant-color-fill-quaternary);
+    color: var(--ant-color-text);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.assistant-message-card pre {
+    background-color: var(--ant-color-fill-quaternary);
+    border: 1px solid var(--ant-color-border);
+    border-radius: 6px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+
+.assistant-message-card pre code {
+    background: none;
+    padding: 0;
+}

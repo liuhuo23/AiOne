@@ -1,0 +1,69 @@
+/* 让Layout撑满父容器 */
+.ai-chat-full-layout {
+    width: 100%;
+    height: calc(100% - 10px);
+}
+
+.ai-chat-flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.ai-chat-messages-flex {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 16px 16px 16px;
+    /* 确保滚动容器边界清晰 */
+    max-height: 100%;
+    position: relative;
+}
+
+.ai-chat-input-flex {
+    flex-shrink: 0;
+    min-height: 80px;
+    max-height: 200px;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px 16px;
+}
+
+/* 自定义样式优化 */
+.ai-chat-messages-flex .ant-list {
+    height: 100%;
+}
+
+.ai-chat-messages-flex .ant-list-item {
+    width: 100%;
+}
+
+/* 输入区域样式 */
+.ai-chat-input-flex .ant-space-compact {
+    display: flex;
+    align-items: flex-end;
+}
+
+.ai-chat-input-flex .ant-input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.ai-chat-input-flex .ant-btn {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    height: auto;
+    min-height: 32px;
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+    .ai-chat-input-flex {
+        padding: 8px 12px;
+    }
+
+    .ai-chat-messages-flex {
+        padding: 0 12px 12px 12px;
+    }
+}

@@ -81,7 +81,7 @@ const SettingsPage: React.FC = () => {
     }, [location.pathname, navigate]);
 
     return (
-        <div className="page-layout-container settings-container">
+        <div className='page-container settings-container'>
             <div
                 style={{
                     width: 200,

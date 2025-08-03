@@ -17,6 +17,7 @@ const AppRoutes = () => {
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/settings/*" element={<SettingsPage />} />
             <Route path="/assent" element={<Assistants />} />
+            <Route path="/" element={<Assistants />} />
         </Routes>
     );
 };
