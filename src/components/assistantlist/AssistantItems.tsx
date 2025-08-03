@@ -1,52 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { List } from "antd";
+import { List, Button, Space, Card, Empty, message } from "antd";
+import { PlusOutlined, RobotOutlined } from "@ant-design/icons";
 import { AssistantListItem } from "../AssistantListItem";
 import { AssistantType } from "@/store/assistant";
-
 
 interface AssistantItemsProps {
     onAssistantChange?: (assistant: AssistantType) => void;
     assistants?: AssistantType[];
 }
 
-const AddButton = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
-    <button
-        style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 8,
-            width: '100%',
-            minHeight: 44,
-            margin: '10px 0 0 0',
-            background: 'var(--ant-color-primary,#1890ff)',
-            color: '#fff',
-            fontSize: 16,
-            fontWeight: 500,
-            border: 'none',
-            outline: 'none',
-            borderRadius: 999,
-            boxShadow: '0 2px 8px rgba(24,144,255,0.08)',
-            cursor: 'pointer',
-            transition: 'background 0.2s',
-        }}
-        {...props}
-    >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="9" y="4" width="2" height="12" rx="1" fill="white" />
-            <rect x="4" y="9" width="12" height="2" rx="1" fill="white" />
-        </svg>
-        <span style={{ fontSize: 16, fontWeight: 500 }}>添加助手</span>
-    </button>
-);
-
 const AssistantItems: React.FC<AssistantItemsProps> = ({ onAssistantChange, assistants }) => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [currentAssistants, setCurrentAssistants] = useState<AssistantType>();
 
     const handleAddAssistant = () => {
-        alert('添加助手功能待实现');
+        message.info('添加助手功能待实现');
     };
+
     useEffect(() => {
         if (onAssistantChange && currentAssistants) {
             // 如果有助手变化回调，传递当前选中的助手
@@ -54,29 +24,89 @@ const AssistantItems: React.FC<AssistantItemsProps> = ({ onAssistantChange, assi
         }
     }, [currentAssistants, onAssistantChange]);
 
-    return (
-        <div style={{ width: '100%' }}>
-            <List
-                itemLayout="horizontal"
-                dataSource={assistants}
+    // 如果没有助手数据，显示空状态
+    if (!assistants || assistants.length === 0) {
+        return (
+            <Space
+                direction="vertical"
                 style={{ width: '100%' }}
-                renderItem={(item, _index) => {
-                    const assistant = item as AssistantType;
-                    const selected = assistant.id === selectedId;
-                    return (
-                        <AssistantListItem
-                            assistant={assistant}
-                            selected={selected}
-                            onClick={() => {
-                                setCurrentAssistants(item);
-                                setSelectedId(assistant.id);
-                            }}
-                        />
-                    );
+                size="large"
+            >
+                <Empty
+                    image={<RobotOutlined style={{ fontSize: 48, color: '#d9d9d9' }} />}
+                    description="暂无助手"
+                    style={{ padding: '20px 0' }}
+                />
+                <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddAssistant}
+                    block
+                    size="large"
+                    style={{
+                        borderRadius: 8,
+                        height: 48,
+                        fontSize: 16,
+                        fontWeight: 500,
+                    }}
+                >
+                    添加助手
+                </Button>
+            </Space>
+        );
+    }
+
+    return (
+        <Space direction="vertical" style={{ width: '100%' }} size="middle">
+            <Card
+                bodyStyle={{
+                    padding: '16px 20px',
+                    borderRadius: 12,
                 }}
-            />
-            <AddButton onClick={handleAddAssistant} type="button" />
-        </div>
+                style={{
+                    borderRadius: 12,
+                    boxShadow: '0 2px 8px 0 rgba(0,0,0,0.06)',
+                    border: '1px solid var(--ant-color-border-secondary)',
+                }}
+            >
+                <List
+                    itemLayout="horizontal"
+                    dataSource={assistants}
+                    style={{ width: '100%' }}
+                    renderItem={(item, _index) => {
+                        const assistant = item as AssistantType;
+                        const selected = assistant.id === selectedId;
+                        return (
+                            <AssistantListItem
+                                assistant={assistant}
+                                selected={selected}
+                                onClick={() => {
+                                    setCurrentAssistants(item);
+                                    setSelectedId(assistant.id);
+                                }}
+                            />
+                        );
+                    }}
+                />
+            </Card>
+
+            <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={handleAddAssistant}
+                block
+                size="large"
+                style={{
+                    borderRadius: 8,
+                    height: 48,
+                    fontSize: 16,
+                    fontWeight: 500,
+                    boxShadow: '0 2px 8px rgba(24,144,255,0.15)',
+                }}
+            >
+                添加助手
+            </Button>
+        </Space>
     );
 };
 

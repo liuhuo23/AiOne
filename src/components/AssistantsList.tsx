@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { useTranslation } from '@/hooks/useTranslation';
 import AssistantItems from './assistantlist/AssistantItems';
 import TopicList from './assistantlist/TopicList';
 import Settings from './assistantlist/Setting';
 import { AssistantType, getDefaultAssistant } from '@/store/assistant';
-import { List, Tabs } from 'antd';
+import {
+    Card,
+    Tabs,
+    Typography,
+    Space,
+    Badge
+} from 'antd';
+import {
+    RobotOutlined,
+    MessageOutlined,
+    SettingOutlined,
+    TeamOutlined
+} from '@ant-design/icons';
 
 const assistantsMock: AssistantType[] = [
     {
@@ -23,23 +34,7 @@ const assistantsMock: AssistantType[] = [
         createdAt: new Date(),
         updatedAt: new Date(),
     },
-    {
-        id: '2',
-        name: '助手B',
-        model: 'gpt-3.5-turbo',
-        modelParams: {
-            model: 'gpt-3.5-turbo',
-            temperature: 0.7,
-            max_tokens: 150,
-            top_p: 1.0,
-            frequency_penalty: 0.0,
-            presence_penalty: 0.0,
-        },
-        createdAt: new Date(),
-        updatedAt: new Date(),
-    },
 ];
-interface AssistantsListProps { }
 
 interface AssistantsListProps {
     onChange?: (key: string) => void;
@@ -50,6 +45,7 @@ const AssistantsList: React.FC<AssistantsListProps> = ({ onChange }) => {
     const defaultAssistant = getDefaultAssistant();
     const [assistant, setAssistant] = useState<AssistantType>(defaultAssistant);
     const [assistants, setAssistants] = useState<AssistantType[]>(assistantsMock);
+
     useEffect(() => {
         // 获取默认助手列表
         setAssistants(assistantsMock);
@@ -61,34 +57,106 @@ const AssistantsList: React.FC<AssistantsListProps> = ({ onChange }) => {
             setAssistant(defaultAssistant);
         }
     }, []);
+
+    const handleTabChange = (key: string) => {
+        onChange?.(key);
+    };
+
+    const getAssistantStats = () => {
+        const activeAssistants = assistants.filter(a => a.id !== 'default').length;
+        const totalAssistants = assistants.length;
+
+        return {
+            total: totalAssistants,
+            active: activeAssistants,
+            default: totalAssistants - activeAssistants
+        };
+    };
+
+    const stats = getAssistantStats();
     const tabList = [
         {
             key: 'assistants',
-            label: t('assistants.assistants'),
-            children: <AssistantItems
-                assistants={assistants}
-                onAssistantChange={(item: AssistantType) => setAssistant(item)}
-            />,
+            label: (
+                <Space>
+                    <RobotOutlined />
+                    {t('assistants.assistants')}
+                    <Badge count={assistants.length} size="small" />
+                </Space>
+            ),
+            children: (
+                <Card
+                    size="small"
+                    style={{ height: '100%' }}
+                >
+                    <AssistantItems
+                        assistants={assistants}
+                        onAssistantChange={(item: AssistantType) => setAssistant(item)}
+                    />
+                </Card>
+            ),
         },
         {
             key: 'chats',
-            label: t('assistants.topic'),
-            children: <TopicList assistant={assistant} />,
+            label: (
+                <Space>
+                    <MessageOutlined />
+                    {t('assistants.topic')}
+                </Space>
+            ),
+            children: (
+                <Card size="small" style={{ height: '100%' }}>
+                    <TopicList assistant={assistant} />
+                </Card>
+            ),
         },
         {
             key: 'settings',
-            label: t('assistants.settings'),
-            children: <Settings />,
+            label: (
+                <Space>
+                    <SettingOutlined />
+                    {t('assistants.settings')}
+                </Space>
+            ),
+            children: (
+                <Card size="small" style={{ height: '100%' }}>
+                    <Settings assistant={assistant} />
+                </Card>
+            ),
         },
     ];
 
-    const ListContainer = styled.div`
-        min-height: 100%;
-    `;
     return (
-        <ListContainer>
-            <Tabs defaultActiveKey="assistants" items={tabList} onChange={onChange} />
-        </ListContainer>
+        <div style={{ height: '100%', padding: '16px' }}>
+            <Card
+                title={
+                    <Space>
+                        <TeamOutlined />
+                        <Typography.Title level={4} style={{ margin: 0 }}>
+                            助手管理中心
+                        </Typography.Title>
+                    </Space>
+                }
+                extra={
+                    <Space>
+                        <Typography.Text type="secondary">
+                            活跃: {stats.active} | 总数: {stats.total}
+                        </Typography.Text>
+                    </Space>
+                }
+                style={{ height: '100%' }}
+                bodyStyle={{ height: 'calc(100% - 66px)' }}
+            >
+                <Tabs
+                    defaultActiveKey="assistants"
+                    items={tabList}
+                    onChange={handleTabChange}
+                    type="card"
+                    style={{ height: '100%' }}
+                    tabBarStyle={{ marginBottom: '16px' }}
+                />
+            </Card>
+        </div>
     );
 };
 

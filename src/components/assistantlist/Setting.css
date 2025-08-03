@@ -1,0 +1,94 @@
+/* Setting组件的样式 */
+.setting-tabs {
+    height: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.setting-tabs .ant-tabs-content-holder {
+    flex: 1 !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.setting-tabs .ant-tabs-content {
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+}
+
+.setting-tabs .ant-tabs-tabpane {
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.setting-tabs .ant-tabs-tabpane-active {
+    height: 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden auto !important;
+}
+
+/* 确保表单元素不会溢出 */
+.setting-form .ant-form-item {
+    margin-bottom: 16px !important;
+}
+
+.setting-form .ant-input,
+.setting-form .ant-input-number,
+.setting-form .ant-select {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.setting-form .ant-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.setting-form .ant-radio-group {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+
+.setting-form .ant-radio-wrapper {
+    margin-right: 8px !important;
+    margin-bottom: 4px !important;
+}
+
+/* 修复Slider marks标签溢出问题 */
+.setting-form .ant-slider {
+    margin: 8px 20px !important;
+    /* 增加左右边距为marks留出空间 */
+    width: calc(100% - 40px) !important;
+    /* 相应调整宽度 */
+}
+
+.setting-form .ant-slider-mark {
+    overflow: visible !important;
+}
+
+.setting-form .ant-slider-mark-text {
+    white-space: nowrap !important;
+    transform: translateX(-50%) !important;
+}
+
+/* 确保第一个和最后一个mark不会溢出 */
+.setting-form .ant-slider-mark-text:first-child {
+    transform: translateX(-25%) !important;
+}
+
+.setting-form .ant-slider-mark-text:last-child {
+    transform: translateX(-75%) !important;
+}

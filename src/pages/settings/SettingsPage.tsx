@@ -5,13 +5,15 @@ import {
     SettingOutlined,
     BgColorsOutlined,
     FolderOpenOutlined,
-    InfoCircleOutlined
+    InfoCircleOutlined,
+    ApiOutlined
 } from '@ant-design/icons';
 import AppearancePage from './AppearancePage';
 import GeneralPage from './GeneralPage';
 import StoragePage from './StoragePage';
 import SystemPage from './SystemPage';
 import UpdatePage from './UpdatePage';
+import ModelProviderPage from './ModelProviderPage';
 
 const SettingsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -22,12 +24,20 @@ const SettingsPage: React.FC = () => {
         const path = location.pathname;
         if (path.includes('/settings/appearance')) return 'appearance';
         if (path.includes('/settings/general')) return 'general';
+        if (path.includes('/settings/model-provider')) return 'model-provider';
         if (path.includes('/settings/storage')) return 'storage';
         if (path.includes('/settings/system')) return 'system';
+        if (path.includes('/settings/update')) return 'update';
         return 'appearance'; // 默认选中外观设置
     };
 
     const menuItems = [
+        {
+            key: 'model-provider',
+            icon: <ApiOutlined />,
+            label: '模型提供商',
+            onClick: () => navigate('/settings/model-provider')
+        },
         {
             key: 'appearance',
             icon: <BgColorsOutlined />,
@@ -126,9 +136,9 @@ const SettingsPage: React.FC = () => {
                 <Routes>
                     <Route path="/appearance" element={<AppearancePage />} />
                     <Route path="/general" element={<GeneralPage />} />
+                    <Route path="/model-provider" element={<ModelProviderPage />} />
                     <Route path="/storage" element={<StoragePage />} />
                     <Route path="/system" element={<SystemPage />} />
-                    <Route path="/appearance" element={<AppearancePage />} />
                     <Route path="/update" element={<UpdatePage />} />
                 </Routes>
             </div>
